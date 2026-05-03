@@ -1,2 +1,2 @@
 # WorldWords
-#database-integration
+Closes #4
