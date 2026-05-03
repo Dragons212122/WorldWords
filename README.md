@@ -1,2 +1,1 @@
 # WorldWords
-Closes #5
