@@ -14,18 +14,39 @@ import {
 } from 'lucide-react';
 
 // --- Cấu hình Firebase ---
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-  apiKey: "demo-key",
-  authDomain: "demo.firebaseapp.com",
-  projectId: "demo-project",
-  storageBucket: "demo.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abcdef"
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+const DEMO_MODE = true; // Set to false when you have valid Firebase keys
+const firebaseConfig = typeof __firebase_config !== 'undefined'
+  ? JSON.parse(__firebase_config)
+  : {
+      apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+      authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+      projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+      storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+      appId: import.meta.env.VITE_FIREBASE_APP_ID
+    };
+
+let app, auth, db;
 const appId = typeof __app_id !== 'undefined' ? __app_id : 'world-words-default';
+
+try {
+  if (DEMO_MODE || !firebaseConfig.apiKey || firebaseConfig.apiKey === 'your_real_api_key') {
+    console.warn('🎭 DEMO MODE ENABLED - Using offline development mode. Firebase auth is disabled.');
+    app = null;
+    auth = null;
+    db = null;
+  } else {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+  }
+} catch (error) {
+  console.warn('Firebase initialization failed:', error.message);
+  console.warn('🎭 Falling back to DEMO MODE');
+  app = null;
+  auth = null;
+  db = null;
+}
 
 // --- Gemini API (Phát âm) ---
 const apiKey = ""; 
@@ -133,6 +154,29 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (loading) return;
+    
+    // Demo mode - bypass auth and save to localStorage
+    if (DEMO_MODE || !auth) {
+      console.log('Demo mode - creating new account');
+      // Generate completely unique ID for each account
+      const uniqueId = `demo-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const userData = {
+        uid: uniqueId,
+        email: email,
+        name: name || email.split('@')[0],
+        goal: "7.5", 
+        streak: 1, 
+        xp: 0, 
+        rank: "New Scholar", 
+        recentLessons: [], 
+        createdAt: new Date().toISOString()
+      };
+      console.log('✓ New account created with ID:', uniqueId);
+      localStorage.setItem('worldwords_user', JSON.stringify(userData));
+      onAuthSuccess();
+      return;
+    }
+
     setLoading(true);
     setError('');
 
@@ -216,6 +260,172 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
   );
 };
 
+// --- Page: Profile ---
+const ProfilePage = ({ profile, onLogout, onGoHome, onProfileUpdate }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({
+    name: profile?.name || "",
+    rank: profile?.rank || "New Scholar",
+    streak: profile?.streak || 1,
+    xp: profile?.xp || 0,
+    goal: profile?.goal || "7.5"
+  });
+
+  const handleSaveChanges = () => {
+    onProfileUpdate(editData);
+    setIsEditing(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F8F9FF] py-20 px-6 lg:px-24">
+      <div className="max-w-4xl mx-auto">
+        <button onClick={onGoHome} className="flex items-center gap-2 text-gray-400 hover:text-gray-900 transition-colors mb-12 font-bold uppercase tracking-widest text-sm">
+          <ArrowLeft className="w-4 h-4" /> Back to Home
+        </button>
+
+        <div className="bg-white rounded-[56px] shadow-2xl border border-gray-100 overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-[#006D5B] to-[#0D9488] p-12 text-white flex justify-between items-center">
+            <div className="flex items-center gap-6">
+              <div className="w-24 h-24 bg-emerald-300 text-[#006D5B] font-black flex items-center justify-center rounded-full text-4xl border-4 border-white shadow-lg">
+                {editData.name?.substring(0, 2).toUpperCase() || "JD"}
+              </div>
+              <div>
+                {isEditing ? (
+                  <input 
+                    type="text"
+                    value={editData.name}
+                    onChange={(e) => setEditData({...editData, name: e.target.value})}
+                    className="text-5xl font-black tracking-tight bg-transparent text-white border-b-2 border-white outline-none mb-2"
+                  />
+                ) : (
+                  <h1 className="text-5xl font-black tracking-tight">{editData.name || "Scholar"}</h1>
+                )}
+                <p className="text-emerald-100 text-lg font-medium mt-2">{profile?.email || "member@worldwords.com"}</p>
+              </div>
+            </div>
+            <button 
+              onClick={() => setIsEditing(!isEditing)}
+              className="px-6 py-3 bg-white text-[#006D5B] rounded-xl font-bold hover:bg-emerald-50 transition-all"
+            >
+              {isEditing ? "Cancel" : "Edit"}
+            </button>
+          </div>
+
+          {/* Profile Content */}
+          <div className="p-12 space-y-12">
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="bg-emerald-50 p-8 rounded-[32px] border border-emerald-100 text-center space-y-2">
+                <Trophy className="w-12 h-12 text-emerald-600 mx-auto" />
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Rank</p>
+                {isEditing ? (
+                  <input 
+                    type="text"
+                    value={editData.rank}
+                    onChange={(e) => setEditData({...editData, rank: e.target.value})}
+                    className="text-3xl font-black text-gray-900 bg-white border border-emerald-200 rounded-lg p-2 w-full text-center"
+                  />
+                ) : (
+                  <p className="text-3xl font-black text-gray-900">{editData.rank}</p>
+                )}
+              </div>
+
+              <div className="bg-blue-50 p-8 rounded-[32px] border border-blue-100 text-center space-y-2">
+                <Flame className="w-12 h-12 text-blue-600 mx-auto" />
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Streak</p>
+                {isEditing ? (
+                  <input 
+                    type="number"
+                    value={editData.streak}
+                    onChange={(e) => setEditData({...editData, streak: parseInt(e.target.value) || 0})}
+                    className="text-3xl font-black text-gray-900 bg-white border border-blue-200 rounded-lg p-2 w-full text-center"
+                  />
+                ) : (
+                  <p className="text-3xl font-black text-gray-900">{editData.streak} days</p>
+                )}
+              </div>
+
+              <div className="bg-orange-50 p-8 rounded-[32px] border border-orange-100 text-center space-y-2">
+                <Zap className="w-12 h-12 text-orange-600 mx-auto" />
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">XP Points</p>
+                {isEditing ? (
+                  <input 
+                    type="number"
+                    value={editData.xp}
+                    onChange={(e) => setEditData({...editData, xp: parseInt(e.target.value) || 0})}
+                    className="text-3xl font-black text-gray-900 bg-white border border-orange-200 rounded-lg p-2 w-full text-center"
+                  />
+                ) : (
+                  <p className="text-3xl font-black text-gray-900">{editData.xp}</p>
+                )}
+              </div>
+
+              <div className="bg-purple-50 p-8 rounded-[32px] border border-purple-100 text-center space-y-2">
+                <Target className="w-12 h-12 text-purple-600 mx-auto" />
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">IELTS Goal</p>
+                {isEditing ? (
+                  <input 
+                    type="text"
+                    value={editData.goal}
+                    onChange={(e) => setEditData({...editData, goal: e.target.value})}
+                    className="text-3xl font-black text-gray-900 bg-white border border-purple-200 rounded-lg p-2 w-full text-center"
+                  />
+                ) : (
+                  <p className="text-3xl font-black text-gray-900">{editData.goal}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Learning Path */}
+            <div className="border-t border-gray-100 pt-12 space-y-6">
+              <h2 className="text-3xl font-black text-gray-900">Learning Journey</h2>
+              <p className="text-gray-400 font-medium">Member since {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : 'recently'}</p>
+              <div className="flex gap-4 flex-wrap">
+                {(profile?.recentLessons || []).length > 0 ? (
+                  profile.recentLessons.map((lesson, idx) => (
+                    <span key={idx} className="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-bold border border-emerald-200">
+                      {lesson}
+                    </span>
+                  ))
+                ) : (
+                  <p className="text-gray-300 italic">No lessons completed yet. Start exploring!</p>
+                )}
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="border-t border-gray-100 pt-12 flex gap-4 flex-col sm:flex-row">
+              {isEditing ? (
+                <>
+                  <Button className="flex-1 py-4 text-lg rounded-3xl bg-green-600 hover:bg-green-700" onClick={handleSaveChanges}>
+                    <CheckCircle2 className="w-5 h-5 mr-2" /> Save Changes
+                  </Button>
+                  <Button variant="outline" className="flex-1 py-4 text-lg rounded-3xl" onClick={() => setIsEditing(false)}>
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" className="flex-1 py-4 text-lg rounded-3xl">
+                    <Mail className="w-5 h-5 mr-2" /> Update Email
+                  </Button>
+                  <Button variant="outline" className="flex-1 py-4 text-lg rounded-3xl">
+                    <Lock className="w-5 h-5 mr-2" /> Change Password
+                  </Button>
+                  <Button variant="white" onClick={onLogout} className="flex-1 py-4 text-lg rounded-3xl border border-red-200 text-red-600 hover:bg-red-50">
+                    <LogOut className="w-5 h-5 mr-2" /> Log Out
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- Page: Home ---
 const HomePage = ({ onAction, user }) => (
   <div className="bg-white min-h-screen">
@@ -263,8 +473,27 @@ export default function App() {
 
   // RULE 3: Auth Before Queries
   useEffect(() => {
-    // For development, skip Firebase auth
-    console.log("Setting demo user for development...");
+    // Check localStorage for existing user on app load
+    const savedUser = localStorage.getItem('worldwords_user');
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser);
+        // Validate the user data has required fields
+        if (userData.uid && userData.email && userData.name) {
+          console.log("✓ Loading user from localStorage:", userData.uid);
+          setUser({ isAnonymous: false, uid: userData.uid, email: userData.email });
+          setProfile(userData);
+          setIsLoading(false);
+          return;
+        }
+      } catch (err) {
+        console.error('Invalid user data in localStorage:', err);
+        localStorage.removeItem('worldwords_user');
+      }
+    }
+    
+    // No valid user found - set demo user
+    console.log("🎭 Starting in demo mode - no saved user");
     setUser({ isAnonymous: true, uid: 'demo-user' });
     setProfile({ 
       name: "Scholar", 
@@ -527,9 +756,49 @@ export default function App() {
           <p className="text-3xl text-gray-400 font-medium max-w-2xl mx-auto">Your IELTS journey is synced across devices. Let's master some more words.</p>
           <div className="flex gap-8 justify-center pt-10">
              <Button className="px-16 py-7 text-3xl shadow-2xl shadow-emerald-200 rounded-3xl" onClick={() => setCurrentPage('catalog')}>Explore Gallery</Button>
-             <Button variant="outline" className="px-16 py-7 text-3xl rounded-3xl" onClick={() => { signOut(auth); setCurrentPage('home'); }}>Log Out</Button>
+             <Button variant="outline" className="px-16 py-7 text-3xl rounded-3xl" onClick={() => setCurrentPage('profile')}>View Profile</Button>
           </div>
         </div>
+      );
+      case 'profile': return (
+        <ProfilePage 
+          profile={profile} 
+          onLogout={() => {
+            console.log('🚪 Logging out - clearing all user data...');
+            // Completely clear localStorage
+            localStorage.removeItem('worldwords_user');
+            localStorage.clear(); // Nuclear option - clear everything
+            
+            // Reset user to anonymous demo state
+            setUser({ isAnonymous: true, uid: 'demo-user' });
+            
+            // Reset profile to fresh default
+            const freshProfile = { 
+              name: "Scholar", 
+              goal: "7.5", 
+              streak: 1, 
+              xp: 0, 
+              rank: "New Scholar", 
+              recentLessons: [], 
+              createdAt: new Date().toISOString() 
+            };
+            setProfile(freshProfile);
+            
+            // Reset page navigation
+            setCurrentPage('home');
+            setSelectedTopic(null);
+            setCurrentWordIndex(0);
+            setIsFlipped(false);
+            
+            console.log('✓ Logout complete - ready for new account');
+          }}
+          onGoHome={() => setCurrentPage('home')}
+          onProfileUpdate={(updatedData) => {
+            const updatedProfile = { ...profile, ...updatedData };
+            setProfile(updatedProfile);
+            localStorage.setItem('worldwords_user', JSON.stringify(updatedProfile));
+          }}
+        />
       );
       default: return null;
     }
@@ -545,20 +814,26 @@ export default function App() {
         </div>
         <div className="flex gap-12 font-black text-[10px] uppercase items-center text-gray-400 tracking-[0.3em]">
           <button onClick={() => setCurrentPage('home')} className={`hover:text-gray-900 transition-colors ${currentPage === 'home' ? 'text-gray-900' : ''}`}>Home</button>
-          <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className={`hover:text-gray-900 transition-colors ${currentPage === 'dashboard' ? 'text-gray-900' : ''}`}>Dashboard</button>
+          <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className={`hover:text-gray-900 transition-colors ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900' : ''}`}>Dashboard</button>
           <button onClick={() => setCurrentPage('catalog')} className={`hover:text-gray-900 transition-all relative ${currentPage.includes('catalog') || currentPage.includes('gallery') ? 'text-gray-900 after:content-[""] after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-[#006D5B]' : ''}`}>Gallery</button>
           <button onClick={() => setCurrentPage(selectedTopic ? 'flashcards' : 'catalog')} className={`hover:text-gray-900 transition-all ${currentPage === 'flashcards' || currentPage.includes('catalog') ? 'text-gray-900' : ''}`}>Flashcards</button>
           <button className="hover:text-gray-900 transition-colors opacity-30 cursor-not-allowed">Quiz</button>
           <div className="flex items-center gap-8 pl-8 border-l border-gray-100">
              <Search className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
-             <div onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className="flex items-center">
-                {user?.isAnonymous ? (
-                  <Button variant="primary" className="py-2.5 px-8 text-[11px] rounded-xl shadow-lg shadow-emerald-100">SIGN IN</Button>
-                ) : (
-                  <div className="w-12 h-12 bg-emerald-50 text-[#006D5B] font-black flex items-center justify-center rounded-full border-2 border-white shadow-xl cursor-pointer hover:scale-110 transition-transform">
-                    {profile?.name?.substring(0,2).toUpperCase() || "JD"}
-                  </div>
-                )}
+             <div 
+               onClick={() => user?.isAnonymous ? setCurrentPage('auth') : setCurrentPage('profile')}
+               className={`w-12 h-12 flex items-center justify-center rounded-full border-2 border-white shadow-xl cursor-pointer hover:scale-110 transition-transform hover:shadow-2xl font-black ${
+                 user?.isAnonymous 
+                   ? 'bg-gray-100 text-gray-400' 
+                   : 'bg-emerald-50 text-[#006D5B]'
+               }`}
+               title={user?.isAnonymous ? "Create Account" : "View Profile"}
+             >
+               {user?.isAnonymous ? (
+                 <User className="w-6 h-6" />
+               ) : (
+                 profile?.name?.substring(0, 2).toUpperCase() || "JD"
+               )}
              </div>
           </div>
         </div>

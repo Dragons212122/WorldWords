@@ -1,14 +1,16 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+
+const repoBase = process.env.NODE_ENV === 'production' ? './' : '/'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  // 1. QUAN TRỌNG: Sửa lỗi trắng trang trên GitHub Pages
-  base: '/WorldWords/', 
-  
+  plugins: [react(), tailwindcss()],
+  base: repoBase,
+
   build: {
-    // 2. Xử lý cảnh báo tệp quá lớn bằng cách chia nhỏ các thư viện (vendor chunks)
+    // Split vendor libraries to avoid large chunk warnings
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -18,7 +20,6 @@ export default defineConfig({
         }
       }
     },
-    // Tăng giới hạn cảnh báo kích thước tệp lên 1000kB nếu cần
     chunkSizeWarningLimit: 1000,
   }
 })

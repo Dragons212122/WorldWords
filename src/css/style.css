@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+:root {
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji";
+  /* Các biến theme khác của bạn */
+}
