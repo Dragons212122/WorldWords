@@ -1,2 +1,2 @@
 # WorldWords
-Closes #4
+Closes #5
