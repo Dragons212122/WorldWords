@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= locals.item ? item.name + ' - Details' : 'Product Not Found' %></title>
+</head>
+<body>
+    <% if (locals.item) { %>
+        <h1><%= item.name || 'Unnamed Product' %></h1>
+        <p><strong>Description:</strong> <%= item.description || 'No description available.' %></p>
+        <p><strong>Price:</strong> $<%= item.price || '0.00' %></p>
+    <% } else { %>
+        <h1>Product Not Found</h1>
+        <p>Sorry, the data for this product is missing or unavailable.</p>
+    <% } %>
+    
+    <a href="/products">← Back to all products</a>
+</body>
+</html>

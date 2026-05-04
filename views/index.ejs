@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products</title>
+</head>
+<body>
+    <h1>Products List</h1>
+    <ul>
+        <% if (locals.items && items.length > 0) { %>
+            <% items.forEach(item => { %>
+                <li><a href="/products/<%= item.id %>"><%= item.name || 'Unnamed Product' %></a> - $<%= item.price || '0.00' %></li>
+            <% }) %>
+        <% } else { %>
+            <p>No products found.</p>
+        <% } %>
+    </ul>
+</body>
+</html>
