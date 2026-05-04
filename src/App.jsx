@@ -12,6 +12,8 @@ import {
   Bookmark, Target, Flame, History, Mail, Lock, Sparkles, Users, Loader2, XCircle,
   ShieldCheck, UserPlus, Crown, Activity, Database, ChevronDown, PlayCircle
 } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 // --- Cấu hình Firebase ---
 const DEMO_MODE = true; // Set to false when you have valid Firebase keys
@@ -217,12 +219,12 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
           <div className="p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm space-y-4 hover:shadow-md transition-shadow">
             <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center shadow-inner"><Sparkles /></div>
             <h3 className="text-lg font-bold">Personalized Growth</h3>
-            <p className="text-xs text-gray-400 font-medium">Adaptive learning paths tailored to your level.</p>
+            <p className="text-xs text-gray-600 font-medium">Adaptive learning paths tailored to your level.</p>
           </div>
           <div className="p-8 bg-white rounded-[32px] border border-gray-100 shadow-sm space-y-4 hover:shadow-md transition-shadow">
             <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center shadow-inner"><Users /></div>
             <h3 className="text-lg font-bold">Global Community</h3>
-            <p className="text-xs text-gray-400 font-medium">Connect with learners from over 120 countries.</p>
+            <p className="text-xs text-gray-600 font-medium">Connect with learners from over 120 countries.</p>
           </div>
         </div>
       </div>
@@ -231,7 +233,7 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
         <div className="bg-white p-12 rounded-[56px] shadow-[0_48px_80px_-24px_rgba(0,109,91,0.12)] space-y-10 border border-gray-50">
           <div className="text-center space-y-2">
             <h2 className="text-4xl font-black text-gray-900 tracking-tight">{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h2>
-            <p className="text-sm text-gray-400 font-medium uppercase tracking-widest text-[10px]">Enter your details to start your journey.</p>
+            <p className="text-sm text-gray-600 font-medium uppercase tracking-widest text-[10px]">Enter your details to start your journey.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -247,7 +249,7 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
           </form>
 
           <div className="text-center space-y-6">
-            <p className="text-sm font-bold text-gray-400">
+            <p className="text-sm font-bold text-gray-600">
               {mode === 'login' ? "Don't have an account?" : "Already have an account?"}{' '}
               <button onClick={onToggleMode} className="text-[#006D5B] font-black hover:underline underline-offset-4 decoration-2">
                 {mode === 'login' ? 'Sign up' : 'Log in'}
@@ -443,14 +445,14 @@ const HomePage = ({ onAction, user }) => (
       </div>
       <div className="flex-1 relative">
          <div className="relative rounded-[56px] overflow-hidden border-[20px] border-white shadow-2xl h-[600px] w-full max-w-2xl transform lg:rotate-2 hover:rotate-0 transition-transform duration-1000">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover" />
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200" alt="Students learning IELTS vocabulary together and succeeding" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-[#006D5B]/5"></div>
          </div>
          <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-[32px] shadow-2xl border border-gray-100 flex items-center gap-4 animate-bounce duration-[3000ms]">
             <div className="w-14 h-14 bg-emerald-50 text-[#006D5B] rounded-full flex items-center justify-center"><TrendingUp className="w-8 h-8" /></div>
             <div>
-               <p className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Growth Rate</p>
-               <p className="text-3xl font-black text-gray-900">150% Weekly</p>
+               <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Growth Rate</p>
+               <p className="text-3xl font-black text-gray-900">150% Weekly! Amazing!</p>
             </div>
          </div>
       </div>
@@ -550,6 +552,7 @@ export default function App() {
   };
 
   const selectTopic = (topicId) => {
+    Logger.trackEvent('select_topic', { topic_id: topicId });
     const words = WORDS_BY_TOPIC[topicId] || [];
     setSelectedTopic(topicId);
     setCurrentTopicWords(words);
@@ -576,6 +579,9 @@ export default function App() {
   };
 
   const handleFlipCard = () => {
+    if (!isFlipped && currentWord.term) {
+      Logger.trackEvent('flip_flashcard', { topic: selectedTopic, word: currentWord.term });
+    }
     setIsFlipped((prev) => !prev);
   };
 
@@ -586,7 +592,7 @@ export default function App() {
   if (isLoading) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white">
       <Loader2 className="animate-spin text-[#006D5B] w-12 h-12 mb-4" />
-      <p className="font-bold text-gray-300 uppercase tracking-[0.2em] text-[10px]">Clarity in Education</p>
+      <p className="font-bold text-gray-500 uppercase tracking-[0.2em] text-[10px]">Clarity in Education</p>
     </div>
   );
 
@@ -638,7 +644,7 @@ export default function App() {
                   <div className="w-full lg:w-96 bg-white p-10 rounded-[48px] shadow-2xl border border-white space-y-6">
                      <div className="flex justify-between items-center"><h4 className="font-bold text-gray-900">Mastery Progress</h4><span className="text-xs font-black text-[#006D5B]">0% Complete</span></div>
                      <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden shadow-inner"><div className="h-full bg-[#006D5B] w-0 transition-all duration-1000" /></div>
-                     <div className="flex items-center gap-3 text-sm font-bold text-gray-300 italic"><CheckCircle2 className="w-5 h-5 text-emerald-100" /> Keep going! You're just starting.</div>
+                     <div className="flex items-center gap-3 text-sm font-bold text-gray-600 italic"><CheckCircle2 className="w-5 h-5 text-emerald-500" /> Keep going! You're just starting. You are doing great!</div>
                   </div>
                </div>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-40">
@@ -652,7 +658,7 @@ export default function App() {
                           <button onClick={() => onStartTTS(w.term)} className="p-4 text-gray-200 hover:text-[#006D5B] hover:bg-emerald-50 rounded-full transition-all"><Volume2 className="w-8 h-8" /></button>
                        </div>
                        <p className="text-2xl text-gray-500 font-medium italic leading-relaxed border-l-[12px] border-emerald-500/10 pl-8">"{w.def}"</p>
-                       <div className="bg-gray-50 p-8 rounded-[40px] border border-gray-100"><p className="text-xs font-black text-gray-300 uppercase tracking-[0.2em] mb-3">Academic Context</p><p className="text-xl text-gray-600 font-medium italic leading-relaxed">"{w.ex}"</p></div>
+                       <div className="bg-gray-50 p-8 rounded-[40px] border border-gray-100"><p className="text-xs font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Academic Context</p><p className="text-xl text-gray-600 font-medium italic leading-relaxed">"{w.ex}"</p></div>
                        <div className="flex justify-between items-center pt-4 relative z-10"><Button variant="ghost" className="px-0 text-xs">Review Details <ArrowRight className="w-4 h-4 ml-1" /></Button><button className="text-gray-200 hover:text-[#006D5B] transition-colors"><Bookmark className="w-6 h-6" /></button></div>
                        <Sparkles className="absolute -bottom-4 -right-4 w-40 h-40 opacity-5 text-emerald-500 group-hover:opacity-10 transition-opacity" />
                     </Container>
@@ -753,7 +759,7 @@ export default function App() {
         <div className="py-40 text-center max-w-5xl mx-auto px-6 space-y-12">
           <Trophy className="w-32 h-32 mx-auto text-yellow-500 drop-shadow-2xl" />
           <h1 className="text-9xl font-black text-gray-900 tracking-tighter italic leading-none underline decoration-[#006D5B] decoration-[16px] underline-offset-[-4px]">Hi, {profile?.name || "Scholar"}!</h1>
-          <p className="text-3xl text-gray-400 font-medium max-w-2xl mx-auto">Your IELTS journey is synced across devices. Let's master some more words.</p>
+          <p className="text-3xl text-gray-600 font-medium max-w-2xl mx-auto">You are making incredible progress! Your IELTS journey is synced across devices. Let's master some more words and achieve greatness today!</p>
           <div className="flex gap-8 justify-center pt-10">
              <Button className="px-16 py-7 text-3xl shadow-2xl shadow-emerald-200 rounded-3xl" onClick={() => setCurrentPage('catalog')}>Explore Gallery</Button>
              <Button variant="outline" className="px-16 py-7 text-3xl rounded-3xl" onClick={() => setCurrentPage('profile')}>View Profile</Button>
@@ -806,13 +812,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-[#006D5B] selection:text-white">
+      <Analytics />
+      <SpeedInsights />
       <audio ref={audioRef} className="hidden" />
       <nav className="fixed top-0 left-0 right-0 z-[100] bg-white/80 border-b border-gray-50 py-6 px-12 lg:px-24 flex justify-between items-center backdrop-blur-xl">
         <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setCurrentPage('home')}>
           <div className="bg-[#006D5B] text-white p-2 rounded-xl group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-emerald-200"><BookOpen className="w-8 h-8" /></div>
           <span className="text-3xl font-black tracking-tighter uppercase text-gray-900">WORLDWORDS</span>
         </div>
-        <div className="flex gap-12 font-black text-[10px] uppercase items-center text-gray-400 tracking-[0.3em]">
+        <div className="flex gap-12 font-black text-[10px] uppercase items-center text-gray-500 tracking-[0.3em]">
           <button onClick={() => setCurrentPage('home')} className={`hover:text-gray-900 transition-colors ${currentPage === 'home' ? 'text-gray-900' : ''}`}>Home</button>
           <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className={`hover:text-gray-900 transition-colors ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900' : ''}`}>Dashboard</button>
           <button onClick={() => setCurrentPage('catalog')} className={`hover:text-gray-900 transition-all relative ${currentPage.includes('catalog') || currentPage.includes('gallery') ? 'text-gray-900 after:content-[""] after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-[#006D5B]' : ''}`}>Gallery</button>
