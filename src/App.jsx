@@ -88,12 +88,12 @@ function pcmToWav(base64Data, sampleRate = 24000) {
 
 // --- Dữ liệu Nội dung (IELTS Focused) ---
 const TOPICS = [
-  { id: 'academic', title: 'Academic Excellence', words: '45 WORDS', levels: ['A1', 'C1'], img: 'publics/imgs/1.jpg', desc: 'Master advanced vocabulary tailored for university-level research and scholarly presentations.' },
-  { id: 'business', title: 'Business Communication', words: '22 WORDS', levels: ['B2'], img: 'publics/imgs/2.jpg', desc: 'Master professional terminology for negotiations, meetings, and project management.' },
-  { id: 'daily', title: 'Daily Conversations', words: '68 WORDS', levels: ['A2'], img: 'publics/imgs/3.jpg', desc: 'Common phrases and idioms to help you communicate naturally like a native speaker.' },
-  { id: 'research', title: 'Research Methodology', words: '28 WORDS', levels: ['C1'], img: 'publics/imgs/4.jpg', desc: 'Master the terminology of systematic investigation and academic inquiry.' },
-  { id: 'critical', title: 'Critical Analysis', words: '25 WORDS', levels: ['B2', 'C1'], img: 'publics/imgs/5.jpg', desc: 'Essential vocabulary for evaluating complex arguments and synthesizing diverse sources.' },
-  { id: 'scientific', title: 'Scientific Writing', words: '42 WORDS', levels: ['C1'], img: 'publics/imgs/6.jpg', desc: 'Technical terminology required for drafting precise journal articles and documentation.' }
+  { id: 'academic', title: 'Academic Excellence', words: '45 WORDS', levels: ['A1', 'C1'], img: 'publics/imgs/academic.jpg', desc: 'Master advanced vocabulary tailored for university-level research and scholarly presentations.' },
+  { id: 'business', title: 'Business Communication', words: '22 WORDS', levels: ['B2'], img: 'publics/imgs/business.jpg', desc: 'Master professional terminology for negotiations, meetings, and project management.' },
+  { id: 'daily', title: 'Daily Conversations', words: '68 WORDS', levels: ['A2'], img: 'publics/imgs/critical.jpg', desc: 'Common phrases and idioms to help you communicate naturally like a native speaker.' },
+  { id: 'research', title: 'Research Methodology', words: '28 WORDS', levels: ['C1'], img: 'publics/imgs/daily.jpg', desc: 'Master the terminology of systematic investigation and academic inquiry.' },
+  { id: 'critical', title: 'Critical Analysis', words: '25 WORDS', levels: ['B2', 'C1'], img: 'publics/imgs/research.jpg', desc: 'Essential vocabulary for evaluating complex arguments and synthesizing diverse sources.' },
+  { id: 'scientific', title: 'Scientific Writing', words: '42 WORDS', levels: ['C1'], img: 'publics/imgs/scientific.jpg', desc: 'Technical terminology required for drafting precise journal articles and documentation.' }
 ];
 
 const WORDS_BY_TOPIC = {
