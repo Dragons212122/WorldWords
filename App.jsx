@@ -88,45 +88,45 @@ function pcmToWav(base64Data, sampleRate = 24000) {
 
 // --- Dữ liệu Nội dung (IELTS Focused) ---
 const TOPICS = [
-  { id: 'academic', title: 'Academic Excellence', words: '45 WORDS', levels: ['A1', 'C1'], img: 'publics/imgs/1.jpg', desc: 'Master advanced vocabulary tailored for university-level research and scholarly presentations.' },
-  { id: 'business', title: 'Business Communication', words: '22 WORDS', levels: ['B2'], img: 'publics/imgs/2.jpg', desc: 'Master professional terminology for negotiations, meetings, and project management.' },
-  { id: 'daily', title: 'Daily Conversations', words: '68 WORDS', levels: ['A2'], img: 'publics/imgs/3.jpg', desc: 'Common phrases and idioms to help you communicate naturally like a native speaker.' },
-  { id: 'research', title: 'Research Methodology', words: '28 WORDS', levels: ['C1'], img: 'publics/imgs/4.jpg', desc: 'Master the terminology of systematic investigation and academic inquiry.' },
-  { id: 'critical', title: 'Critical Analysis', words: '25 WORDS', levels: ['B2', 'C1'], img: 'publics/imgs/5.jpg', desc: 'Essential vocabulary for evaluating complex arguments and synthesizing diverse sources.' },
-  { id: 'scientific', title: 'Scientific Writing', words: '42 WORDS', levels: ['C1'], img: 'publics/imgs/6.jpg', desc: 'Technical terminology required for drafting precise journal articles and documentation.' }
+  { id: 'academic', title: 'Academic Excellence', words: '45 WORDS', levels: ['A1', 'C1'], gradient: 'from-orange-200 via-stone-400 to-stone-600', desc: 'Master advanced vocabulary tailored for university-level research, essays, and scholarly presentations.' },
+  { id: 'business', title: 'Business Communication', words: '22 WORDS', levels: ['B2'], gradient: 'from-orange-300 via-blue-400 to-blue-800', desc: 'Master professional terminology for negotiations, meetings, and project management.' },
+  { id: 'daily', title: 'Daily Conversations', words: '68 WORDS', levels: ['A2'], gradient: 'from-emerald-800 via-stone-500 to-orange-400', desc: 'Common phrases and idioms to help you communicate naturally like a native speaker.' },
+  { id: 'research', title: 'Research Methodology', words: '28 WORDS', levels: ['C1'], gradient: 'from-blue-200 via-emerald-400 to-stone-600', desc: 'Master the terminology of systematic investigation, data collection, and academic inquiry.' },
+  { id: 'critical', title: 'Critical Analysis', words: '25 WORDS', levels: ['B2', 'C1'], gradient: 'from-stone-400 via-emerald-600 to-stone-800', desc: 'Essential vocabulary for evaluating complex arguments, identifying bias, and synthesizing diverse sources.' },
+  { id: 'scientific', title: 'Scientific Writing', words: '42 WORDS', levels: ['C1'], gradient: 'from-emerald-400 via-orange-300 to-stone-800', desc: 'Technical terminology required for drafting precise lab reports, journal articles, and experimental documentation.' }
 ];
 
 const WORDS_BY_TOPIC = {
   academic: [
-    { term: "Mitigate", pos: "Verb", def: "To make something less severe, serious, or painful.", ex: "Drainage schemes have helped to mitigate the risk of flooding.", trans: "Làm nhẹ bớt, giảm nhẹ mức độ nghiêm trọng." },
-    { term: "Paradigm", pos: "Noun", def: "A typical example or pattern of something; a model.", ex: "The new research represents a paradigm shift in our understanding.", trans: "Mô hình, hình mẫu." },
-    { term: "Substantiate", pos: "Verb", def: "Provide evidence to support or prove the truth of.", ex: "The findings were substantiated by further analysis.", trans: "Chứng minh, xác minh." },
-    { term: "Ephemeral", pos: "Adjective", def: "Lasting for a very short time.", ex: "Fashions are ephemeral.", trans: "Chóng tàn, phù du." }
+    { term: "Mitigate", pos: "Verb", def: "To make something less severe, serious, or painful.", ex: "Drainage schemes have helped to mitigate the risk of flooding.", trans: "Làm nhẹ bớt, giảm nhẹ mức độ nghiêm trọng.", img: "/somi-images/mitigate.jpg" },
+    { term: "Paradigm", pos: "Noun", def: "A typical example or pattern of something; a model.", ex: "The new research represents a paradigm shift in our understanding.", trans: "Mô hình, hình mẫu.", img: "/somi-images/paradigm.jpg" },
+    { term: "Substantiate", pos: "Verb", def: "Provide evidence to support or prove the truth of.", ex: "The findings were substantiated by further analysis.", trans: "Chứng minh, xác minh.", img: "/somi-images/substantiate.jpg" },
+    { term: "Ephemeral", pos: "Adjective", def: "Lasting for a very short time.", ex: "Fashions are ephemeral.", trans: "Chóng tàn, phù du.", img: "/somi-images/ephemeral.jpg" }
   ],
   business: [
-    { term: "Pragmatic", pos: "Adjective", def: "Dealing with things sensibly and realistically.", ex: "We need to take a pragmatic approach to the problem.", trans: "Thực tế, thực dụng." },
-    { term: "Synergy", pos: "Noun", def: "The combined power of a group of things when they are working together.", ex: "The synergy between the two companies will create more value.", trans: "Sự hợp lực, sức mạnh tổng hợp." },
-    { term: "Lucrative", pos: "Adjective", def: "Producing a great deal of profit.", ex: "The software business is a lucrative industry.", trans: "Sinh lợi, có lời." }
+    { term: "Pragmatic", pos: "Adjective", def: "Dealing with things sensibly and realistically.", ex: "We need to take a pragmatic approach to the problem.", trans: "Thực tế, thực dụng.", img: "/somi-images/pragmatic.jpg" },
+    { term: "Synergy", pos: "Noun", def: "The combined power of a group of things when they are working together.", ex: "The synergy between the two companies will create more value.", trans: "Sự hợp lực, sức mạnh tổng hợp.", img: "/somi-images/synergy.jpg" },
+    { term: "Lucrative", pos: "Adjective", def: "Producing a great deal of profit.", ex: "The software business is a lucrative industry.", trans: "Sinh lợi, có lời.", img: "/somi-images/lucrative.jpg" }
   ],
   daily: [
-    { term: "Resilient", pos: "Adjective", def: "Able to withstand or recover quickly from difficult conditions.", ex: "Babies are generally far more resilient than new parents realize.", trans: "Kiên cường, mau phục hồi." },
-    { term: "Nostalgia", pos: "Noun", def: "A sentimental longing or wistful affection for the past.", ex: "I was overcome with acute nostalgia for my days in college.", trans: "Sự hoài niệm." },
-    { term: "Serendipity", pos: "Noun", def: "The occurrence and development of events by chance in a happy or beneficial way.", ex: "A fortunate stroke of serendipity.", trans: "Sự tình cờ may mắn." }
+    { term: "Resilient", pos: "Adjective", def: "Able to withstand or recover quickly from difficult conditions.", ex: "Babies are generally far more resilient than new parents realize.", trans: "Kiên cường, mau phục hồi.", img: "/somi-images/resilient.jpg" },
+    { term: "Nostalgia", pos: "Noun", def: "A sentimental longing or wistful affection for the past.", ex: "I was overcome with acute nostalgia for my days in college.", trans: "Sự hoài niệm.", img: "/somi-images/nostalgia.jpg" },
+    { term: "Serendipity", pos: "Noun", def: "The occurrence and development of events by chance in a happy or beneficial way.", ex: "A fortunate stroke of serendipity.", trans: "Sự tình cờ may mắn.", img: "/somi-images/serendipity.jpg" }
   ],
   research: [
-    { term: "Empirical", pos: "Adjective", def: "Based on, concerned with, or verifiable by observation or experience rather than theory or pure logic.", ex: "They provided considerable empirical evidence to support their argument.", trans: "Dựa trên kinh nghiệm, thực nghiệm." },
-    { term: "Qualitative", pos: "Adjective", def: "Relating to, measuring, or measured by the quality of something rather than its quantity.", ex: "A qualitative analysis of the data.", trans: "Định tính." },
-    { term: "Methodology", pos: "Noun", def: "A system of methods used in a particular area of study or activity.", ex: "A methodology for investigating the concept of focal points.", trans: "Phương pháp luận." }
+    { term: "Empirical", pos: "Adjective", def: "Based on, concerned with, or verifiable by observation or experience rather than theory or pure logic.", ex: "They provided considerable empirical evidence to support their argument.", trans: "Dựa trên kinh nghiệm, thực nghiệm.", img: "/somi-images/empirical.jpg" },
+    { term: "Qualitative", pos: "Adjective", def: "Relating to, measuring, or measured by the quality of something rather than its quantity.", ex: "A qualitative analysis of the data.", trans: "Định tính.", img: "/somi-images/qualitative.jpg" },
+    { term: "Methodology", pos: "Noun", def: "A system of methods used in a particular area of study or activity.", ex: "A methodology for investigating the concept of focal points.", trans: "Phương pháp luận.", img: "/somi-images/methodology.jpg" }
   ],
   critical: [
-    { term: "Objective", pos: "Adjective", def: "Not influenced by personal feelings or opinions in considering facts.", ex: "The report provided an objective analysis.", trans: "Khách quan." },
-    { term: "Inference", pos: "Noun", def: "A conclusion reached on the basis of evidence and reasoning.", ex: "What inference can we draw from these facts?", trans: "Sự suy luận." },
-    { term: "Synthesize", pos: "Verb", def: "Combine (a number of things) into a coherent whole.", ex: "Pupils should synthesize the data they have gathered.", trans: "Tổng hợp." }
+    { term: "Objective", pos: "Adjective", def: "Not influenced by personal feelings or opinions in considering facts.", ex: "The report provided an objective analysis.", trans: "Khách quan.", img: "/somi-images/objective.jpg" },
+    { term: "Inference", pos: "Noun", def: "A conclusion reached on the basis of evidence and reasoning.", ex: "What inference can we draw from these facts?", trans: "Sự suy luận.", img: "/somi-images/inference.jpg" },
+    { term: "Synthesize", pos: "Verb", def: "Combine (a number of things) into a coherent whole.", ex: "Pupils should synthesize the data they have gathered.", trans: "Tổng hợp.", img: "/somi-images/synthesize.jpg" }
   ],
   scientific: [
-    { term: "Hypothesis", pos: "Noun", def: "A supposition or proposed explanation made on the basis of limited evidence as a starting point for further investigation.", ex: "Professional astronomers attacked him for popularizing an unconfirmed hypothesis.", trans: "Giả thuyết." },
-    { term: "Catalyst", pos: "Noun", def: "A substance that increases the rate of a chemical reaction without itself undergoing any permanent chemical change.", ex: "Chlorine acts as a catalyst promoting the breakdown of ozone.", trans: "Chất xúc tác." },
-    { term: "Variables", pos: "Noun", def: "An element, feature, or factor that is liable to vary or change.", ex: "There are too many variables in the experiment to predict the result.", trans: "Biến số." }
+    { term: "Hypothesis", pos: "Noun", def: "A supposition or proposed explanation made on the basis of limited evidence as a starting point for further investigation.", ex: "Professional astronomers attacked him for popularizing an unconfirmed hypothesis.", trans: "Giả thuyết.", img: "/somi-images/hypothesis.jpg" },
+    { term: "Catalyst", pos: "Noun", def: "A substance that increases the rate of a chemical reaction without itself undergoing any permanent chemical change.", ex: "Chlorine acts as a catalyst promoting the breakdown of ozone.", trans: "Chất xúc tác.", img: "/somi-images/catalyst.jpg" },
+    { term: "Variables", pos: "Noun", def: "An element, feature, or factor that is liable to vary or change.", ex: "There are too many variables in the experiment to predict the result.", trans: "Biến số.", img: "/somi-images/variables.jpg" }
   ]
 };
 
@@ -629,18 +629,10 @@ export default function App() {
           </div>
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {TOPICS.map((topic) => (
-              <Container key={topic.id} className="p-0 overflow-hidden flex flex-col group hover:-translate-y-4 duration-500 border-none shadow-xl" onClick={() => selectTopic(topic.id)}>
-                <div className="h-64 relative overflow-hidden">
-                  <img 
-                    src={topic.img} 
-                    alt={topic.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-                  <div className="absolute top-6 left-6 px-4 py-1.5 bg-[#00E5BC] text-white text-[10px] font-black uppercase rounded-full shadow-lg tracking-widest">
-                    {topic.words}
-                  </div>
+              <Container key={topic.id} className="p-0 overflow-hidden flex flex-col group hover:-translate-y-4 duration-1000 border-none shadow-xl" onClick={() => selectTopic(topic.id)}>
+                <div className={`h-64 bg-gradient-to-br ${topic.gradient} relative overflow-hidden`}>
+                  <div className="absolute inset-0 backdrop-blur-3xl opacity-60" />
+                  <div className={`absolute top-8 left-8 px-5 py-2 bg-[#00E5BC] text-white text-[10px] font-black uppercase rounded-full shadow-lg tracking-widest`}>{topic.words}</div>
                 </div>
                 <div className="p-12 flex flex-col flex-1 space-y-6">
                   <h3 className="text-3xl font-black text-gray-900 group-hover:text-[#006D5B] transition-colors">{topic.title}</h3>
@@ -679,7 +671,12 @@ export default function App() {
                </div>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-40">
                   {(WORDS_BY_TOPIC[selectedTopic] || []).map((w, idx) => (
-                    <Container key={idx} className="p-12 space-y-8 border-none shadow-2xl relative overflow-hidden group">
+                    <Container key={idx} className="p-12 space-y-8 border-none shadow-2xl relative overflow-hidden group flex flex-col">
+                       {w.img && (
+                         <div className="mb-6 rounded-2xl overflow-hidden">
+                           <img src={w.img} alt={w.term} className="w-full h-48 object-cover" />
+                         </div>
+                       )}
                        <div className="flex justify-between items-start relative z-10">
                           <div className="space-y-2">
                              <span className="px-4 py-1.5 bg-emerald-50 text-[#006D5B] rounded-full text-xs font-black uppercase tracking-widest">{w.pos}</span>
