@@ -101,32 +101,49 @@ const WORDS_BY_TOPIC = {
     { term: "Mitigate", pos: "Verb", def: "To make something less severe, serious, or painful.", ex: "Drainage schemes have helped to mitigate the risk of flooding.", trans: "Làm nhẹ bớt, giảm nhẹ mức độ nghiêm trọng." },
     { term: "Paradigm", pos: "Noun", def: "A typical example or pattern of something; a model.", ex: "The new research represents a paradigm shift in our understanding.", trans: "Mô hình, hình mẫu." },
     { term: "Substantiate", pos: "Verb", def: "Provide evidence to support or prove the truth of.", ex: "The findings were substantiated by further analysis.", trans: "Chứng minh, xác minh." },
-    { term: "Ephemeral", pos: "Adjective", def: "Lasting for a very short time.", ex: "Fashions are ephemeral.", trans: "Chóng tàn, phù du." }
+    { term: "Ephemeral", pos: "Adjective", def: "Lasting for a very short time.", ex: "Fashions are ephemeral.", trans: "Chóng tàn, phù du." },
+    { term: "Ebullient", pos: "Adjective", def: "Cheerful and full of energy.", ex: "The ebullient atmosphere at the university gala was contagious.", trans: "Sôi nổi, hăng hái." },
+    { term: "Ubiquitous", pos: "Adjective", def: "Present, appearing, or found everywhere.", ex: "Computers are now ubiquitous in modern education environments.", trans: "Có mặt ở khắp nơi." }
   ],
   business: [
     { term: "Pragmatic", pos: "Adjective", def: "Dealing with things sensibly and realistically.", ex: "We need to take a pragmatic approach to the problem.", trans: "Thực tế, thực dụng." },
     { term: "Synergy", pos: "Noun", def: "The combined power of a group of things when they are working together.", ex: "The synergy between the two companies will create more value.", trans: "Sự hợp lực, sức mạnh tổng hợp." },
-    { term: "Lucrative", pos: "Adjective", def: "Producing a great deal of profit.", ex: "The software business is a lucrative industry.", trans: "Sinh lợi, có lời." }
+    { term: "Lucrative", pos: "Adjective", def: "Producing a great deal of profit.", ex: "The software business is a lucrative industry.", trans: "Sinh lợi, có lời." },
+    { term: "Negotiate", pos: "Verb", def: "To reach an agreement through discussion.", ex: "The two companies are still negotiating the terms.", trans: "Đàm phán." },
+    { term: "Leverage", pos: "Verb", def: "To use something to maximum advantage.", ex: "We should leverage our existing network.", trans: "Tận dụng lợi thế." },
+    { term: "Stakes", pos: "Noun", def: "The potential risks or rewards in a given situation.", ex: "The stakes are high in this acquisition.", trans: "Rủi ro hoặc phần thưởng tiềm năng." }
   ],
   daily: [
     { term: "Resilient", pos: "Adjective", def: "Able to withstand or recover quickly from difficult conditions.", ex: "Babies are generally far more resilient than new parents realize.", trans: "Kiên cường, mau phục hồi." },
     { term: "Nostalgia", pos: "Noun", def: "A sentimental longing or wistful affection for the past.", ex: "I was overcome with acute nostalgia for my days in college.", trans: "Sự hoài niệm." },
-    { term: "Serendipity", pos: "Noun", def: "The occurrence and development of events by chance in a happy or beneficial way.", ex: "A fortunate stroke of serendipity.", trans: "Sự tình cờ may mắn." }
+    { term: "Serendipity", pos: "Noun", def: "The occurrence and development of events by chance in a happy or beneficial way.", ex: "A fortunate stroke of serendipity.", trans: "Sự tình cờ may mắn." },
+    { term: "Catch up", pos: "Phrasal Verb", def: "To talk to someone you haven't seen for a while.", ex: "Let's grab a coffee and catch up!", trans: "Trò chuyện sau một thời gian." },
+    { term: "Break the ice", pos: "Idiom", def: "To say or do something that makes people feel more relaxed.", ex: "He told a joke to break the ice.", trans: "Phá vỡ sự ngượng ngùng." },
+    { term: "Hang out", pos: "Phrasal Verb", def: "To spend time relaxing.", ex: "We usually hang out at the park on weekends.", trans: "Đi chơi, thư giãn." }
   ],
   research: [
-    { term: "Empirical", pos: "Adjective", def: "Based on, concerned with, or verifiable by observation or experience rather than theory or pure logic.", ex: "They provided considerable empirical evidence to support their argument.", trans: "Dựa trên kinh nghiệm, thực nghiệm." },
-    { term: "Qualitative", pos: "Adjective", def: "Relating to, measuring, or measured by the quality of something rather than its quantity.", ex: "A qualitative analysis of the data.", trans: "Định tính." },
-    { term: "Methodology", pos: "Noun", def: "A system of methods used in a particular area of study or activity.", ex: "A methodology for investigating the concept of focal points.", trans: "Phương pháp luận." }
+    { term: "Empirical", pos: "Adjective", def: "Based on observation or experience rather than theory.", ex: "They provided empirical evidence for their claims.", trans: "Thực nghiệm." },
+    { term: "Qualitative", pos: "Adjective", def: "Relating to, measuring, or measured by the quality of something.", ex: "The study used qualitative interviews.", trans: "Định tính." },
+    { term: "Methodology", pos: "Noun", def: "A system of methods used in a particular area of study.", ex: "The methodology was clearly outlined in the paper.", trans: "Phương pháp luận." },
+    { term: "Correlation", pos: "Noun", def: "A mutual relationship or connection between two or more things.", ex: "There is a strong correlation between these two variables.", trans: "Sự tương quan." },
+    { term: "Peer-reviewed", pos: "Adjective", def: "Evaluated by experts in the same field before publication.", ex: "The results were published in a peer-reviewed journal.", trans: "Được bình duyệt." },
+    { term: "Quantitative", pos: "Adjective", def: "Relating to, measuring, or measured by the quantity of something.", ex: "The researchers gathered extensive quantitative data.", trans: "Định lượng." }
   ],
   critical: [
     { term: "Objective", pos: "Adjective", def: "Not influenced by personal feelings or opinions in considering facts.", ex: "The report provided an objective analysis.", trans: "Khách quan." },
     { term: "Inference", pos: "Noun", def: "A conclusion reached on the basis of evidence and reasoning.", ex: "What inference can we draw from these facts?", trans: "Sự suy luận." },
-    { term: "Synthesize", pos: "Verb", def: "Combine (a number of things) into a coherent whole.", ex: "Pupils should synthesize the data they have gathered.", trans: "Tổng hợp." }
+    { term: "Synthesize", pos: "Verb", def: "Combine (a number of things) into a coherent whole.", ex: "Pupils should synthesize the data they have gathered.", trans: "Tổng hợp." },
+    { term: "Subjective", pos: "Adjective", def: "Based on or influenced by personal feelings, tastes, or opinions.", ex: "Art criticism is highly subjective.", trans: "Chủ quan." },
+    { term: "Bias", pos: "Noun", def: "Prejudice in favor of or against one thing, person, or group.", ex: "The study was criticized for its inherent bias.", trans: "Sự thiên vị." },
+    { term: "Scrutinize", pos: "Verb", def: "Examine or inspect closely and thoroughly.", ex: "Customers were warned to scrutinize the small print.", trans: "Xem xét kỹ lưỡng." }
   ],
   scientific: [
-    { term: "Hypothesis", pos: "Noun", def: "A supposition or proposed explanation made on the basis of limited evidence as a starting point for further investigation.", ex: "Professional astronomers attacked him for popularizing an unconfirmed hypothesis.", trans: "Giả thuyết." },
-    { term: "Catalyst", pos: "Noun", def: "A substance that increases the rate of a chemical reaction without itself undergoing any permanent chemical change.", ex: "Chlorine acts as a catalyst promoting the breakdown of ozone.", trans: "Chất xúc tác." },
-    { term: "Variables", pos: "Noun", def: "An element, feature, or factor that is liable to vary or change.", ex: "There are too many variables in the experiment to predict the result.", trans: "Biến số." }
+    { term: "Hypothesis", pos: "Noun", def: "A proposed explanation made on the basis of limited evidence.", ex: "The researchers tested their hypothesis in the lab.", trans: "Giả thuyết." },
+    { term: "Catalyst", pos: "Noun", def: "A substance that increases the rate of a chemical reaction.", ex: "Chlorine acts as a catalyst promoting the breakdown of ozone.", trans: "Chất xúc tác." },
+    { term: "Variables", pos: "Noun", def: "An element, feature, or factor that is liable to vary or change.", ex: "There are too many variables in the experiment to predict the result.", trans: "Biến số." },
+    { term: "Replicate", pos: "Verb", def: "Make an exact copy of; reproduce.", ex: "They failed to replicate the original experimental findings.", trans: "Tái tạo, sao chép." },
+    { term: "Control group", pos: "Noun", def: "The group in an experiment or study that does not receive treatment.", ex: "The control group received a placebo instead of the drug.", trans: "Nhóm đối chứng." },
+    { term: "Anomaly", pos: "Noun", def: "Something that deviates from what is standard, normal, or expected.", ex: "There was a significant anomaly in the test results.", trans: "Sự dị thường." }
   ]
 };
 
@@ -574,7 +591,6 @@ export default function App() {
   };
 
   const selectTopic = (topicId) => {
-    Logger.trackEvent('select_topic', { topic_id: topicId });
     const words = WORDS_BY_TOPIC[topicId] || [];
     setSelectedTopic(topicId);
     setCurrentTopicWords(words);
@@ -601,9 +617,6 @@ export default function App() {
   };
 
   const handleFlipCard = () => {
-    if (!isFlipped && currentWord.term) {
-      Logger.trackEvent('flip_flashcard', { topic: selectedTopic, word: currentWord.term });
-    }
     setIsFlipped((prev) => !prev);
   };
 
@@ -661,43 +674,85 @@ export default function App() {
         const topic = TOPICS.find(t => t.id === selectedTopic);
         return (
           <div className="bg-[#F8F9FF] min-h-screen py-12 px-6 lg:px-24">
-            <div className="max-w-7xl mx-auto space-y-12">
-               <div className="flex items-center gap-3 text-xs font-bold text-gray-400 uppercase tracking-widest">
-                  <button onClick={() => setCurrentPage('catalog')} className="hover:text-gray-900">Topics</button> <ChevronDown className="w-4 h-4 -rotate-90" /> <span className="text-gray-900">{topic?.title}</span>
+            <div className="max-w-7xl mx-auto space-y-10">
+               {/* Breadcrumbs */}
+               <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
+                  <button onClick={() => setCurrentPage('catalog')} className="hover:text-gray-900 transition-colors">Topics</button>
+                  <ChevronDown className="w-4 h-4 -rotate-90 opacity-50" />
+                  <span className="text-gray-900 font-bold">{topic?.title}</span>
                </div>
-               <div className="flex flex-col lg:flex-row justify-between items-start gap-12">
-                  <div className="flex-1 space-y-4 text-left">
-                    <h1 className="text-8xl font-black text-gray-900 tracking-tighter italic leading-none">{topic?.title}</h1>
-                    <p className="text-2xl text-gray-400 max-w-2xl font-medium italic">{topic?.desc}</p>
-                    <Button variant="white" onClick={() => setCurrentPage('catalog')} className="mt-4 border border-gray-100"><ArrowLeft className="w-4 h-4" /> Back to Catalog</Button>
+               
+               {/* Header & Progress */}
+               <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
+                  <div className="flex-1 space-y-3">
+                    <h1 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">{topic?.title}</h1>
+                    <p className="text-lg text-gray-500 max-w-2xl font-medium leading-relaxed">{topic?.desc}</p>
                   </div>
-                  <div className="w-full lg:w-96 bg-white p-10 rounded-[48px] shadow-2xl border border-white space-y-6">
-                     <div className="flex justify-between items-center"><h4 className="font-bold text-gray-900">Mastery Progress</h4><span className="text-xs font-black text-[#006D5B]">0% Complete</span></div>
-                     <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden shadow-inner"><div className="h-full bg-[#006D5B] w-0 transition-all duration-1000" /></div>
-                     <div className="flex items-center gap-3 text-sm font-bold text-gray-600 italic"><CheckCircle2 className="w-5 h-5 text-emerald-500" /> Keep going! You're just starting. You are doing great!</div>
+                  <div className="w-full lg:w-80 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                     <div className="flex justify-between items-center mb-4">
+                        <h4 className="font-bold text-gray-600 uppercase tracking-widest text-xs">Topic Progress</h4>
+                        <span className="text-sm font-black text-[#006D5B]">0/{topic?.words ? topic.words.replace(' WORDS', '') : 0} words (0%)</span>
+                     </div>
+                     <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
+                        <div className="h-full bg-[#006D5B] w-0 transition-all duration-1000" />
+                     </div>
+                     <div className="flex justify-between items-center text-sm font-bold text-[#006D5B] cursor-pointer hover:underline" onClick={() => setCurrentPage('flashcards')}>
+                        <div className="flex items-center gap-2"><PlayCircle className="w-5 h-5" /> Start Learning</div>
+                     </div>
                   </div>
                </div>
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-10 pb-40">
+
+               {/* Hero Section */}
+               <div className="flex flex-col lg:flex-row gap-6">
+                  <div className="w-full lg:w-2/3 h-64 lg:h-80 rounded-3xl overflow-hidden relative shadow-sm">
+                     <img src={topic?.img} alt={topic?.title} className="w-full h-full object-cover" />
+                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8 text-white">
+                       <span className="px-3 py-1.5 bg-[#006D5B] text-white rounded-full text-[10px] font-black uppercase tracking-widest w-max mb-3 shadow-sm">Study Field</span>
+                       <h3 className="text-2xl lg:text-3xl font-black">{topic?.title}</h3>
+                     </div>
+                  </div>
+                  <div className="w-full lg:w-1/3 h-64 lg:h-80 bg-[#006D5B] rounded-3xl p-8 text-white shadow-sm flex flex-col justify-center relative overflow-hidden">
+                     <Zap className="w-8 h-8 mb-4 text-emerald-300" />
+                     <h4 className="text-xl font-black mb-3">Precision over Prolixity</h4>
+                     <p className="text-emerald-50 text-sm leading-relaxed opacity-90">In academic discourse, clarity is paramount. Every word must serve a specific diagnostic or analytical purpose to ensure replicability and peer understanding.</p>
+                     <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white opacity-5 rounded-full blur-2xl"></div>
+                  </div>
+               </div>
+
+               {/* Word Grid */}
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {(WORDS_BY_TOPIC[selectedTopic] || []).map((w, idx) => (
-                    <Container key={idx} className="p-12 space-y-8 border-none shadow-2xl relative overflow-hidden group">
-                       <div className="flex justify-between items-start relative z-10">
-                          <div className="space-y-2">
-                             <span className="px-4 py-1.5 bg-emerald-50 text-[#006D5B] rounded-full text-xs font-black uppercase tracking-widest">{w.pos}</span>
-                             <h3 className="text-5xl font-black text-gray-900 group-hover:text-[#006D5B] transition-colors tracking-tighter">{w.term}</h3>
-                          </div>
-                          <button onClick={() => onStartTTS(w.term)} className="p-4 text-gray-200 hover:text-[#006D5B] hover:bg-emerald-50 rounded-full transition-all"><Volume2 className="w-8 h-8" /></button>
+                    <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-all duration-300">
+                       <div className="flex justify-between items-start mb-6">
+                          <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest">{w.pos}</span>
+                          <button onClick={() => onStartTTS(w.term)} className="text-gray-400 hover:text-[#006D5B] transition-colors"><Volume2 className="w-5 h-5" /></button>
                        </div>
-                       <p className="text-2xl text-gray-500 font-medium italic leading-relaxed border-l-[12px] border-emerald-500/10 pl-8">"{w.def}"</p>
-                       <div className="bg-gray-50 p-8 rounded-[40px] border border-gray-100"><p className="text-xs font-black text-gray-500 uppercase tracking-[0.2em] mb-3">Academic Context</p><p className="text-xl text-gray-600 font-medium italic leading-relaxed">"{w.ex}"</p></div>
-                       <div className="flex justify-between items-center pt-4 relative z-10"><Button variant="ghost" className="px-0 text-xs">Review Details <ArrowRight className="w-4 h-4 ml-1" /></Button><button className="text-gray-200 hover:text-[#006D5B] transition-colors"><Bookmark className="w-6 h-6" /></button></div>
-                       <Sparkles className="absolute -bottom-4 -right-4 w-40 h-40 opacity-5 text-emerald-500 group-hover:opacity-10 transition-opacity" />
-                    </Container>
+                       
+                       <div className="space-y-3 mb-8 flex-1">
+                          <h3 className="text-2xl font-black text-[#006D5B] tracking-tight">{w.term}</h3>
+                          <p className="text-gray-600 font-medium leading-relaxed text-sm">{w.def}</p>
+                          <div className="pt-4 mt-4 border-t border-gray-50">
+                             <p className="text-sm text-gray-500 italic">"{w.ex}"</p>
+                          </div>
+                       </div>
+                       
+                       <div className="flex items-center gap-3 mt-auto">
+                          <button onClick={() => setCurrentPage('flashcards')} className="flex-1 py-3 bg-gray-50 text-gray-600 font-bold hover:bg-emerald-50 hover:text-[#006D5B] transition-colors rounded-xl text-xs uppercase tracking-widest">
+                             Details
+                          </button>
+                          <button className="p-3 border border-gray-200 text-gray-400 rounded-xl hover:bg-gray-50 hover:text-[#006D5B] transition-colors">
+                             <Bookmark className="w-5 h-5" />
+                          </button>
+                       </div>
+                    </div>
                   ))}
-                  <div className="bg-[#006D5B] p-16 rounded-[64px] shadow-2xl text-white flex flex-col items-center justify-center text-center space-y-8 md:col-span-2">
-                     <BrainCircuit className="w-20 h-20 text-emerald-300" />
-                     <div className="space-y-4"><h3 className="text-5xl font-black tracking-tight">Ready for a challenge?</h3><p className="text-2xl text-emerald-100 font-medium max-w-xl opacity-80 italic">Practice your selected topic with a focused flashcard session.</p></div>
-                     <Button variant="white" className="px-20 py-6 text-2xl rounded-3xl font-black" onClick={() => setCurrentPage('flashcards')}>Start Flashcards</Button>
-                  </div>
+               </div>
+
+               {/* Load More Button */}
+               <div className="flex justify-center mt-12 mb-20">
+                  <button className="px-8 py-3 border-2 border-[#006D5B] text-[#006D5B] font-bold rounded-full hover:bg-[#006D5B] hover:text-white transition-all flex items-center gap-2 text-sm shadow-sm">
+                     Load More Words <ChevronDown className="w-4 h-4" />
+                  </button>
                </div>
             </div>
           </div>
@@ -850,11 +905,18 @@ export default function App() {
           <div className="bg-[#006D5B] text-white p-2 rounded-xl group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-emerald-200"><BookOpen className="w-8 h-8" /></div>
           <span className="text-3xl font-black tracking-tighter uppercase text-gray-900">WORLDWORDS</span>
         </div>
-        <div className="flex gap-12 font-black text-[10px] uppercase items-center text-gray-500 tracking-[0.3em]">
+        <div className="flex gap-8 font-black text-sm uppercase items-center text-gray-500 tracking-widest">
           <button onClick={() => setCurrentPage('home')} className={`hover:text-gray-900 transition-colors ${currentPage === 'home' ? 'text-gray-900' : ''}`}>Home</button>
           <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className={`hover:text-gray-900 transition-colors ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900' : ''}`}>Dashboard</button>
-          <button onClick={() => setCurrentPage('catalog')} className={`hover:text-gray-900 transition-all relative ${currentPage.includes('catalog') || currentPage.includes('gallery') ? 'text-gray-900 after:content-[""] after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-[#006D5B]' : ''}`}>Gallery</button>
-          <button onClick={() => setCurrentPage(selectedTopic ? 'flashcards' : 'catalog')} className={`hover:text-gray-900 transition-all ${currentPage === 'flashcards' || currentPage.includes('catalog') ? 'text-gray-900' : ''}`}>Flashcards</button>
+          <div className="relative group py-2 cursor-pointer">
+            <button onClick={() => setCurrentPage('catalog')} className={`flex items-center gap-1 hover:text-gray-900 transition-all relative ${currentPage.includes('catalog') || currentPage.includes('gallery') || currentPage === 'flashcards' ? 'text-gray-900 after:content-[""] after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-[#006D5B]' : ''}`}>
+              Gallery <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
+            </button>
+            <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-100 rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,109,91,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden z-50 transform translate-y-2 group-hover:translate-y-0">
+               <button onClick={() => setCurrentPage('catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase transition-colors">Topics</button>
+               <button onClick={() => setCurrentPage(selectedTopic ? 'flashcards' : 'catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase border-t border-gray-50 transition-colors">Flashcards</button>
+            </div>
+          </div>
           <button className="hover:text-gray-900 transition-colors opacity-30 cursor-not-allowed">Quiz</button>
           <div className="flex items-center gap-8 pl-8 border-l border-gray-100">
              <Search className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
