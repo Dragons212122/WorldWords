@@ -121,15 +121,16 @@ Merge updates from task-4/optimization
 
 ### (a) Các trang đã xây dựng
 
-| Trang | Route/State | Mô tả |
-|---|---|---|
-| Homepage | `home` | Trang chủ giới thiệu nền tảng và kêu gọi hành động. |
-| Catalog | `catalog` | Hiển thị danh sách các chủ đề từ vựng dạng thẻ. |
-| Flashcards | `flashcards` | Giao diện học từ vựng bằng thẻ lật tương tác 3D. |
-| Quiz | `quiz` | Giao diện test trắc nghiệm tính điểm. |
-| Auth | `auth` / `login` | Trang đăng nhập, đăng ký tài khoản và khôi phục mật khẩu. |
-| Dashboard | `dashboard` | Tổng quan thông tin, XP, Rank của người dùng. |
-| Profile | `profile` | Chỉnh sửa thông tin và theo dõi chi tiết. |
+| Trang | URL / Route | Mô tả | Người thực hiện |
+|---|---|---|---|
+| Homepage | `https://world-words.vercel.app/` | Trang chủ giới thiệu nền tảng và kêu gọi hành động. | Nguyễn Ngọc |
+| Catalog | `https://world-words.vercel.app/catalog` | Hiển thị danh sách các chủ đề từ vựng dạng thẻ. | Nguyễn Ngọc |
+| Flashcards | `https://world-words.vercel.app/flashcards` | Giao diện học từ vựng bằng thẻ lật tương tác 3D. | Nguyễn Ngọc |
+| Login | `https://world-words.vercel.app/login` | Trang đăng nhập vào hệ thống. | Nguyễn Ngọc |
+| Register | `https://world-words.vercel.app/register` | Trang đăng ký tài khoản mới. | Nguyễn Ngọc |
+| Forgot Password | `https://world-words.vercel.app/forgot-password` | Khôi phục mật khẩu qua email. | Nguyễn Ngọc |
+| Dashboard | `https://world-words.vercel.app/dashboard` | Tổng quan thông tin, XP, Rank của người dùng. | Nguyễn Ngọc |
+| Profile | `https://world-words.vercel.app/profile` | Chỉnh sửa thông tin cá nhân và thiết lập mục tiêu. | Nguyễn Ngọc |
 
 ### (b) Sử dụng Tailwind CSS
 
@@ -143,7 +144,7 @@ Merge updates from task-4/optimization
 | Tính năng | Mô tả |
 |---|---|
 | **3D Flashcard** | Thẻ từ vựng lật 180 độ khi nhấn nhờ CSS 3D Transforms (`rotate-y-180`). |
-| **Interactive Quiz** | Nút lựa chọn thay đổi màu sắc ngay lập tức Xanh/Đỏ dựa vào kết quả đúng/sai. |
+| **Word Bookmark** | Nhấn icon Bookmark trên Flashcard để lưu trực tiếp từ khó vào mảng `savedWords` trong Profile. |
 | **Password Visibility** | Nút toggle thay đổi dạng input từ `password` sang `text` và ngược lại. |
 | **Hover Physics** | Ảnh và Card phóng to mượt mà, đổ bóng `shadow-2xl` khi di chuột. |
 
@@ -175,10 +176,11 @@ Merge updates from task-4/optimization
 
 ### (c) Các trang hiển thị dữ liệu động
 
-| Trang | Dữ liệu hiển thị | Nguồn dữ liệu |
-|---|---|---|
-| **Flashcards / Quiz** | Câu hỏi, từ vựng, ví dụ, nghĩa. | Object `WORDS_BY_TOPIC` |
-| **Dashboard / Profile** | Tên người dùng, Email, Điểm XP, Rank hiện tại. | LocalStorage (`worldwords_user`) / Firestore |
+| Trang | Dữ liệu hiển thị | Query / Endpoint | Người thực hiện |
+|---|---|---|---|
+| Flashcards | Danh sách thẻ từ vựng dựa theo chủ đề người dùng đã chọn. | `GET https://world-words.vercel.app/api/topics/:id/words` | Nguyễn Ngọc |
+| Dashboard | Tên người dùng, Điểm XP, Rank hiện tại. | `GET https://world-words.vercel.app/api/users/:uid/dashboard` | Nguyễn Ngọc |
+| Profile | Form thông tin chi tiết (Email, Mục tiêu, Chuỗi ngày học liên tiếp). | `GET/PUT https://world-words.vercel.app/api/users/:uid/profile` | Nguyễn Ngọc |
 
 ---
 

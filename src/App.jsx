@@ -569,96 +569,7 @@ const HomePage = ({ onAction, user }) => (
   </div>
 );
 
-// --- Page: Quiz ---
-const QuizPage = ({ onGoHome }) => {
-  const [question, setQuestion] = useState(null);
-  const [options, setOptions] = useState([]);
-  const [score, setScore] = useState(0);
-  const [answered, setAnswered] = useState(false);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  
-  const generateQuestion = () => {
-    const allWords = Object.values(WORDS_BY_TOPIC).flat();
-    if (allWords.length === 0) return;
-    
-    const shuffled = [...allWords].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 4);
-    
-    const correctWord = selected[0];
-    const opts = selected.map(w => w.term).sort(() => 0.5 - Math.random());
-    
-    setQuestion(correctWord);
-    setOptions(opts);
-    setAnswered(false);
-    setSelectedAnswer(null);
-  };
 
-  useEffect(() => {
-    generateQuestion();
-  }, []);
-
-  const handleAnswer = (opt) => {
-    if (answered) return;
-    setAnswered(true);
-    setSelectedAnswer(opt);
-    if (opt === question.term) {
-      setScore(s => s + 10);
-    }
-  };
-
-  if (!question) return null;
-
-  return (
-    <div className="min-h-screen bg-[#F8F9FF] py-24 px-6 lg:px-24 flex flex-col items-center">
-       <div className="w-full max-w-3xl space-y-12 animate-in fade-in slide-in-from-bottom duration-500">
-          <div className="flex justify-between items-center">
-             <button onClick={onGoHome} className="flex items-center gap-2 text-gray-400 hover:text-gray-900 font-bold uppercase tracking-widest text-xs transition-colors"><ArrowLeft className="w-4 h-4"/> Back to Home</button>
-             <div className="px-6 py-2 bg-emerald-100 text-[#006D5B] rounded-full font-black text-lg flex items-center gap-2 shadow-sm"><Trophy className="w-5 h-5"/> {score} XP</div>
-          </div>
-          
-          <div className="bg-white p-12 rounded-[48px] shadow-2xl border border-gray-100 text-center space-y-10 hover:shadow-[0_32px_80px_-24px_rgba(0,109,91,0.15)] transition-shadow duration-700">
-             <div>
-                <span className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest">{question.pos}</span>
-                <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mt-8 leading-tight tracking-tight">"{question.def}"</h2>
-             </div>
-             
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {options.map((opt, i) => {
-                   let btnStyle = "bg-gray-50 border-gray-100 text-gray-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-[#006D5B]";
-                   if (answered) {
-                      if (opt === question.term) {
-                         btnStyle = "bg-emerald-500 border-emerald-600 text-white shadow-lg shadow-emerald-200";
-                      } else if (opt === selectedAnswer) {
-                         btnStyle = "bg-red-500 border-red-600 text-white shadow-lg shadow-red-200";
-                      } else {
-                         btnStyle = "bg-gray-100 border-gray-200 text-gray-400 opacity-50";
-                      }
-                   }
-                   return (
-                      <button 
-                        key={i} 
-                        onClick={() => handleAnswer(opt)}
-                        disabled={answered}
-                        className={`p-6 rounded-3xl border-2 text-xl font-bold transition-all duration-300 ${btnStyle} ${answered && opt !== selectedAnswer && opt !== question.term ? 'scale-95' : 'hover:-translate-y-1'}`}
-                      >
-                         {opt}
-                      </button>
-                   );
-                })}
-             </div>
-             
-             {answered && (
-                <div className="pt-8 flex justify-center animate-in fade-in zoom-in duration-300">
-                   <Button onClick={generateQuestion} className="px-12 py-5 rounded-2xl shadow-xl shadow-emerald-200 text-lg">
-                      Next Question <ArrowRight className="w-5 h-5 ml-2" />
-                   </Button>
-                </div>
-             )}
-          </div>
-       </div>
-    </div>
-  );
-};
 
 // --- APP Main Logic ---
 export default function App() {
@@ -795,12 +706,12 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home': return <HomePage onAction={setCurrentPage} user={user} />;
-      case 'quiz': return <QuizPage onGoHome={() => setCurrentPage('home')} />;
+
       case 'catalog': return (
         <div className="bg-[#F8F9FF] min-h-screen py-24 px-12 lg:px-20 space-y-16 animate-in slide-in-from-bottom duration-700">
           <div className="max-w-7xl mx-auto space-y-4 text-left">
-            <h1 className="text-6xl font-black text-gray-900 tracking-tighter">Topic Catalog</h1>
-            <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-2xl italic">Select a topic to explore detailed word lists. Each collection is designed to optimize learning within specific contexts.</p>
+            <h1 className="text-6xl font-black text-gray-900 tracking-tighter">Flashcards</h1>
+            <p className="text-lg text-gray-500 font-medium leading-relaxed max-w-2xl italic">Choose a topic and start learning with interactive flashcards. Each collection is designed to optimize your vocabulary growth.</p>
           </div>
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {TOPICS.map((topic) => (
@@ -1072,15 +983,13 @@ export default function App() {
           <button onClick={() => setCurrentPage('home')} className={`hover:text-gray-900 transition-colors ${currentPage === 'home' ? 'text-gray-900' : ''}`}>Home</button>
           <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className={`hover:text-gray-900 transition-colors ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900' : ''}`}>Dashboard</button>
           <div className="relative group py-2 cursor-pointer">
-            <button onClick={() => setCurrentPage('catalog')} className={`flex items-center gap-1 hover:text-gray-900 transition-all relative ${currentPage.includes('catalog') || currentPage.includes('gallery') || currentPage === 'flashcards' ? 'text-gray-900 after:content-[""] after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-[#006D5B]' : ''}`}>
+            <button className={`flex items-center gap-1 hover:text-gray-900 transition-all relative ${currentPage === 'catalog' || currentPage === 'gallery_detail' || currentPage === 'flashcards' ? 'text-gray-900 after:content-[""] after:absolute after:-bottom-2 after:left-0 after:right-0 after:h-0.5 after:bg-[#006D5B]' : ''}`}>
               Gallery <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
             </button>
             <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-100 rounded-2xl shadow-[0_20px_40px_-15px_rgba(0,109,91,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col overflow-hidden z-50 transform translate-y-2 group-hover:translate-y-0">
-               <button onClick={() => setCurrentPage('catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase transition-colors">Topics</button>
-               <button onClick={() => setCurrentPage(selectedTopic ? 'flashcards' : 'catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase border-t border-gray-50 transition-colors">Flashcards</button>
+              <button onClick={() => setCurrentPage('catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase transition-colors">Flashcards</button>
             </div>
           </div>
-          <button onClick={() => setCurrentPage('quiz')} className={`hover:text-gray-900 transition-colors ${currentPage === 'quiz' ? 'text-gray-900' : ''}`}>Quiz</button>
           <div className="flex items-center gap-8 pl-8 border-l border-gray-100">
              <Search className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
              <div 

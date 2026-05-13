@@ -1,1 +1,0 @@
-import{n as e}from"./rolldown-runtime-DDdRRPPX.js";import{a as t,f as n,t as r,u as i}from"./@firebase-esEFG96r.js";var a=e((()=>{i(),i(),n(`firebase`,`12.12.1`,`app`)})),o=e((()=>{t()})),s=e((()=>{r()}));export{o as n,a as r,s as t};
