@@ -7,14 +7,13 @@
 | **Hình thức** | Dự án cá nhân (Solo) |
 | **Tên dự án** | WorldWords - IELTS Vocabulary |
 | **GitHub Repository** | [Dragons212122/WorldWords](https://github.com/Dragons212122/WorldWords) |
-| **Video Demo** | *(Chèn link YouTube tại đây)* |
-| **Ngày nộp** | 13/05/2026 |
+| **Ngày nộp** | chưa xong |
 
 ### Sinh viên thực hiện
 
 | Họ tên | MSSV | Vai trò |
 |---|---|---|
-| Nguyễn Ngọc | 12345678 | Fullstack Developer |
+| Phạm Ngọc Kha | 24020002 | Fullstack Developer |
 
 ---
 
@@ -199,8 +198,6 @@ Merge updates from task-4/optimization
 | Best Practices | 100 |
 | SEO | 100 |
 
-*(Sinh viên có thể đính kèm ảnh chụp kết quả Lighthouse thực tế tại đây)*
-
 ### (b) Theo dõi hành vi người dùng
 
 - [x] Đã tích hợp các công cụ **Vercel Analytics** (`@vercel/analytics`) và **Speed Insights** (`@vercel/speed-insights`).
@@ -212,5 +209,3 @@ Merge updates from task-4/optimization
 
 - [x] **Source code trên GitHub**
 - [x] **README.md** (Chứa đầy đủ nội dung Report)
-- [ ] **Video demo trên YouTube** *(Cần tự bổ sung)*
-- [ ] **Self-Report** *(Cần tự tạo thư mục docs/self-reports/)*
