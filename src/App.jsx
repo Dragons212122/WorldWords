@@ -3,14 +3,14 @@ import { initializeApp } from 'firebase/app';
 import { 
   getAuth, onAuthStateChanged, signInAnonymously, signOut,
   createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  signInWithCustomToken
+  signInWithCustomToken, sendPasswordResetEmail
 } from 'firebase/auth';
 import { getFirestore, doc, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
 import { 
   BookOpen, User, Search, Trophy, ArrowRight, CheckCircle2, BrainCircuit, TrendingUp,
   LogOut, GraduationCap, MessageSquare, Globe, Star, Zap, Filter, ArrowLeft, Volume2,
   Bookmark, Target, Flame, History, Mail, Lock, Sparkles, Users, Loader2, XCircle,
-  ShieldCheck, UserPlus, Crown, Activity, Database, ChevronDown, PlayCircle
+  ShieldCheck, UserPlus, Crown, Activity, Database, ChevronDown, PlayCircle, Eye, EyeOff, KeyRound
 } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
@@ -152,34 +152,35 @@ const OWNER_EMAIL = "admin@worldwords.com";
 
 // --- Shared Components ---
 const Container = ({ children, className = "", onClick }) => (
-  <div onClick={onClick} className={`bg-white border-[1px] border-gray-100 rounded-[24px] shadow-sm ${className} ${onClick ? 'cursor-pointer hover:shadow-xl transition-all' : ''}`}>
+  <div onClick={onClick} className={`bg-white border-[1px] border-gray-100 rounded-[24px] shadow-sm ${className} ${onClick ? 'cursor-pointer hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 ease-out' : ''}`}>
     {children}
   </div>
 );
 
 const Button = ({ children, onClick, variant = "primary", className = "", loading = false, disabled = false }) => {
   const styles = {
-    primary: "bg-[#006D5B] text-white hover:bg-[#005a4b]",
-    outline: "border border-gray-200 text-gray-700 hover:bg-gray-50",
-    white: "bg-white text-[#006D5B] hover:bg-gray-50 shadow-md",
-    ghost: "text-gray-400 hover:text-[#006D5B] font-bold"
+    primary: "bg-[#006D5B] text-white hover:bg-[#005a4b] shadow-md hover:shadow-lg hover:shadow-[#006D5B]/30",
+    outline: "border border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300",
+    white: "bg-white text-[#006D5B] hover:bg-gray-50 shadow-md hover:shadow-xl",
+    ghost: "text-gray-400 hover:text-[#006D5B] font-bold hover:bg-gray-50"
   };
   return (
-    <button onClick={onClick} disabled={loading || disabled} className={`px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-50 ${styles[variant]} ${className}`}>
+    <button onClick={onClick} disabled={loading || disabled} className={`px-6 py-3 rounded-xl font-bold flex items-center justify-center gap-2 transition-all duration-300 ease-out hover:-translate-y-1 active:translate-y-0 active:scale-95 disabled:opacity-50 disabled:hover:translate-y-0 ${styles[variant]} ${className}`}>
       {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : children}
     </button>
   );
 };
 
-const ModernInput = ({ label, value, onChange, placeholder, type = "text", icon: Icon }) => (
-  <div className="flex flex-col gap-1.5 w-full text-left">
-    {label && <label className="font-bold text-[10px] uppercase tracking-widest text-gray-400 ml-1">{label}</label>}
-    <div className="relative">
-      {Icon && <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />}
+const ModernInput = ({ label, value, onChange, placeholder, type = "text", icon: Icon, rightElement }) => (
+  <div className="flex flex-col gap-2 w-full text-left">
+    {label && <label className="font-bold text-[11px] uppercase tracking-widest text-gray-500 ml-1">{label}</label>}
+    <div className="relative group">
+      {Icon && <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-[#006D5B] transition-colors" />}
       <input 
         type={type} value={value} onChange={onChange} placeholder={placeholder} 
-        className={`w-full ${Icon ? 'pl-11' : 'px-4'} py-3.5 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#006D5B] focus:bg-white transition-all font-medium text-sm`} 
+        className={`w-full ${Icon ? 'pl-12' : 'px-4'} ${rightElement ? 'pr-12' : 'pr-4'} py-4 bg-gray-50/80 border-2 border-gray-100 rounded-2xl outline-none focus:border-[#006D5B] focus:bg-white focus:ring-4 focus:ring-emerald-50 transition-all font-medium text-[15px] placeholder:text-gray-400`} 
       />
+      {rightElement && <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">{rightElement}</div>}
     </div>
   </div>
 );
@@ -190,10 +191,42 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isForgotMode, setIsForgotMode] = useState(false);
+
+  const handleResetPassword = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+    if (!email) {
+      setError('Please enter your email address first.');
+      return;
+    }
+    setLoading(true);
+    setError('');
+    setSuccessMsg('');
+    try {
+      if (DEMO_MODE || !auth) {
+        setTimeout(() => setSuccessMsg("Demo mode: A password reset link has been sent to your email!"), 1000);
+      } else {
+        await sendPasswordResetEmail(auth, email);
+        setSuccessMsg("Reset link sent! Please check your email inbox.");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(DEMO_MODE ? true : false); // artificial delay for demo
+      if (DEMO_MODE) setTimeout(() => setLoading(false), 1000);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isForgotMode) {
+       return handleResetPassword(e);
+    }
+    
     if (loading) return;
     
     // Demo mode - bypass auth and save to localStorage
@@ -269,31 +302,68 @@ const AuthPage = ({ mode, onToggleMode, onAuthSuccess }) => {
       </div>
 
       <div className="w-full max-w-md">
-        <div className="bg-white p-12 rounded-[56px] shadow-[0_48px_80px_-24px_rgba(0,109,91,0.12)] space-y-10 border border-gray-50">
-          <div className="text-center space-y-2">
-            <h2 className="text-4xl font-black text-gray-900 tracking-tight">{mode === 'login' ? 'Welcome Back' : 'Create Account'}</h2>
-            <p className="text-sm text-gray-600 font-medium uppercase tracking-widest text-[10px]">Enter your details to start your journey.</p>
+        <div className="bg-white p-12 rounded-[48px] shadow-2xl space-y-10 border border-gray-100 hover:shadow-[0_32px_80px_-24px_rgba(0,109,91,0.15)] transition-shadow duration-700">
+          <div className="text-center space-y-3">
+            <div className="w-16 h-16 bg-[#E8F8F2] text-[#006D5B] rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner"><KeyRound className="w-8 h-8" /></div>
+            <h2 className="text-4xl font-black text-gray-900 tracking-tight">
+               {isForgotMode ? 'Reset Password' : mode === 'login' ? 'Welcome Back' : 'Create Account'}
+            </h2>
+            <p className="text-sm text-gray-500 font-medium uppercase tracking-widest text-[10px]">
+               {isForgotMode ? 'Enter your email to receive a reset link.' : 'Enter your details to start your journey.'}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {mode === 'signup' && <ModernInput label="Full Name" placeholder="Alex Rivers" value={name} onChange={(e) => setName(e.target.value)} icon={User} />}
-            <ModernInput label="Email Address" type="email" placeholder="alex@example.com" value={email} onChange={(e) => setEmail(e.target.value)} icon={Mail} />
-            <ModernInput label="Password" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} icon={Lock} />
+            {!isForgotMode && mode === 'signup' && (
+               <ModernInput label="Full Name" placeholder="Alex Rivers" value={name} onChange={(e) => setName(e.target.value)} icon={User} />
+            )}
             
-            {error && <div className="bg-red-50 border border-red-100 p-4 rounded-2xl text-red-600 text-xs font-bold text-center animate-shake">{error}</div>}
+            <ModernInput label="Email Address" type="email" placeholder="alex@example.com" value={email} onChange={(e) => setEmail(e.target.value)} icon={Mail} />
+            
+            {!isForgotMode && (
+               <div className="space-y-3">
+                  <ModernInput 
+                     label="Password" 
+                     type={showPassword ? "text" : "password"} 
+                     placeholder="••••••••" 
+                     value={password} 
+                     onChange={(e) => setPassword(e.target.value)} 
+                     icon={Lock} 
+                     rightElement={
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                           {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                        </button>
+                     }
+                  />
+                  {mode === 'login' && (
+                     <div className="flex justify-end">
+                        <button type="button" onClick={() => { setIsForgotMode(true); setError(''); setSuccessMsg(''); }} className="text-[#006D5B] text-xs font-bold hover:underline">Forgot password?</button>
+                     </div>
+                  )}
+               </div>
+            )}
+            
+            {error && <div className="bg-red-50 border border-red-100 p-4 rounded-2xl text-red-600 text-sm font-bold text-center animate-shake flex items-center gap-2 justify-center"><XCircle className="w-4 h-4" /> {error}</div>}
+            {successMsg && <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-2xl text-[#006D5B] text-sm font-bold text-center flex items-center gap-2 justify-center"><CheckCircle2 className="w-4 h-4" /> {successMsg}</div>}
 
             <Button type="submit" className="w-full py-5 text-lg shadow-xl shadow-emerald-100" loading={loading}>
-              {mode === 'login' ? 'Log In' : 'Create Account'} <ArrowRight className="w-5 h-5 ml-1" />
+              {isForgotMode ? 'Send Reset Link' : mode === 'login' ? 'Log In' : 'Create Account'} <ArrowRight className="w-5 h-5 ml-1" />
             </Button>
           </form>
 
-          <div className="text-center space-y-6">
-            <p className="text-sm font-bold text-gray-600">
-              {mode === 'login' ? "Don't have an account?" : "Already have an account?"}{' '}
-              <button onClick={onToggleMode} className="text-[#006D5B] font-black hover:underline underline-offset-4 decoration-2">
-                {mode === 'login' ? 'Sign up' : 'Log in'}
-              </button>
-            </p>
+          <div className="text-center space-y-6 pt-4 border-t border-gray-50">
+            {isForgotMode ? (
+               <button onClick={() => { setIsForgotMode(false); setError(''); setSuccessMsg(''); }} className="text-gray-500 font-bold hover:text-gray-900 transition-colors flex items-center justify-center gap-2 w-full">
+                 <ArrowLeft className="w-4 h-4" /> Back to Log In
+               </button>
+            ) : (
+               <p className="text-sm font-bold text-gray-600">
+                 {mode === 'login' ? "Don't have an account?" : "Already have an account?"}{' '}
+                 <button onClick={() => { onToggleMode(); setError(''); }} className="text-[#006D5B] font-black hover:underline underline-offset-4 decoration-2">
+                   {mode === 'login' ? 'Sign up' : 'Log in'}
+                 </button>
+               </p>
+            )}
           </div>
         </div>
       </div>
@@ -482,12 +552,12 @@ const HomePage = ({ onAction, user }) => (
           <Button variant="outline" className="px-12 py-5 text-xl rounded-2xl">See Examples</Button>
         </div>
       </div>
-      <div className="flex-1 relative">
-         <div className="relative rounded-[56px] overflow-hidden border-[20px] border-white shadow-2xl h-[600px] w-full max-w-2xl transform lg:rotate-2 hover:rotate-0 transition-transform duration-1000">
-            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200" alt="Students learning IELTS vocabulary together and succeeding" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-[#006D5B]/5"></div>
+      <div className="flex-1 relative group perspective-1000">
+         <div className="relative rounded-[56px] overflow-hidden border-[20px] border-white shadow-2xl h-[600px] w-full max-w-2xl transform lg:rotate-2 group-hover:rotate-0 transition-all duration-1000 ease-out group-hover:scale-[1.02]">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1200" alt="Students learning IELTS vocabulary together and succeeding" className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-110" />
+            <div className="absolute inset-0 bg-[#006D5B]/5 group-hover:bg-transparent transition-colors duration-1000"></div>
          </div>
-         <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-[32px] shadow-2xl border border-gray-100 flex items-center gap-4 animate-bounce duration-[3000ms]">
+         <div className="absolute -bottom-8 -left-8 bg-white p-8 rounded-[32px] shadow-2xl border border-gray-100 flex items-center gap-4 animate-bounce duration-[3000ms] hover:animate-none hover:-translate-y-2 transition-transform cursor-pointer">
             <div className="w-14 h-14 bg-emerald-50 text-[#006D5B] rounded-full flex items-center justify-center"><TrendingUp className="w-8 h-8" /></div>
             <div>
                <p className="text-[10px] font-bold text-gray-600 uppercase tracking-widest">Growth Rate</p>
@@ -498,6 +568,97 @@ const HomePage = ({ onAction, user }) => (
     </section>
   </div>
 );
+
+// --- Page: Quiz ---
+const QuizPage = ({ onGoHome }) => {
+  const [question, setQuestion] = useState(null);
+  const [options, setOptions] = useState([]);
+  const [score, setScore] = useState(0);
+  const [answered, setAnswered] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  
+  const generateQuestion = () => {
+    const allWords = Object.values(WORDS_BY_TOPIC).flat();
+    if (allWords.length === 0) return;
+    
+    const shuffled = [...allWords].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 4);
+    
+    const correctWord = selected[0];
+    const opts = selected.map(w => w.term).sort(() => 0.5 - Math.random());
+    
+    setQuestion(correctWord);
+    setOptions(opts);
+    setAnswered(false);
+    setSelectedAnswer(null);
+  };
+
+  useEffect(() => {
+    generateQuestion();
+  }, []);
+
+  const handleAnswer = (opt) => {
+    if (answered) return;
+    setAnswered(true);
+    setSelectedAnswer(opt);
+    if (opt === question.term) {
+      setScore(s => s + 10);
+    }
+  };
+
+  if (!question) return null;
+
+  return (
+    <div className="min-h-screen bg-[#F8F9FF] py-24 px-6 lg:px-24 flex flex-col items-center">
+       <div className="w-full max-w-3xl space-y-12 animate-in fade-in slide-in-from-bottom duration-500">
+          <div className="flex justify-between items-center">
+             <button onClick={onGoHome} className="flex items-center gap-2 text-gray-400 hover:text-gray-900 font-bold uppercase tracking-widest text-xs transition-colors"><ArrowLeft className="w-4 h-4"/> Back to Home</button>
+             <div className="px-6 py-2 bg-emerald-100 text-[#006D5B] rounded-full font-black text-lg flex items-center gap-2 shadow-sm"><Trophy className="w-5 h-5"/> {score} XP</div>
+          </div>
+          
+          <div className="bg-white p-12 rounded-[48px] shadow-2xl border border-gray-100 text-center space-y-10 hover:shadow-[0_32px_80px_-24px_rgba(0,109,91,0.15)] transition-shadow duration-700">
+             <div>
+                <span className="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest">{question.pos}</span>
+                <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mt-8 leading-tight tracking-tight">"{question.def}"</h2>
+             </div>
+             
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {options.map((opt, i) => {
+                   let btnStyle = "bg-gray-50 border-gray-100 text-gray-700 hover:bg-emerald-50 hover:border-emerald-200 hover:text-[#006D5B]";
+                   if (answered) {
+                      if (opt === question.term) {
+                         btnStyle = "bg-emerald-500 border-emerald-600 text-white shadow-lg shadow-emerald-200";
+                      } else if (opt === selectedAnswer) {
+                         btnStyle = "bg-red-500 border-red-600 text-white shadow-lg shadow-red-200";
+                      } else {
+                         btnStyle = "bg-gray-100 border-gray-200 text-gray-400 opacity-50";
+                      }
+                   }
+                   return (
+                      <button 
+                        key={i} 
+                        onClick={() => handleAnswer(opt)}
+                        disabled={answered}
+                        className={`p-6 rounded-3xl border-2 text-xl font-bold transition-all duration-300 ${btnStyle} ${answered && opt !== selectedAnswer && opt !== question.term ? 'scale-95' : 'hover:-translate-y-1'}`}
+                      >
+                         {opt}
+                      </button>
+                   );
+                })}
+             </div>
+             
+             {answered && (
+                <div className="pt-8 flex justify-center animate-in fade-in zoom-in duration-300">
+                   <Button onClick={generateQuestion} className="px-12 py-5 rounded-2xl shadow-xl shadow-emerald-200 text-lg">
+                      Next Question <ArrowRight className="w-5 h-5 ml-2" />
+                   </Button>
+                </div>
+             )}
+          </div>
+       </div>
+    </div>
+  );
+};
 
 // --- APP Main Logic ---
 export default function App() {
@@ -634,6 +795,7 @@ export default function App() {
   const renderPage = () => {
     switch (currentPage) {
       case 'home': return <HomePage onAction={setCurrentPage} user={user} />;
+      case 'quiz': return <QuizPage onGoHome={() => setCurrentPage('home')} />;
       case 'catalog': return (
         <div className="bg-[#F8F9FF] min-h-screen py-24 px-12 lg:px-20 space-y-16 animate-in slide-in-from-bottom duration-700">
           <div className="max-w-7xl mx-auto space-y-4 text-left">
@@ -642,16 +804,17 @@ export default function App() {
           </div>
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {TOPICS.map((topic) => (
-              <Container key={topic.id} className="p-0 overflow-hidden flex flex-col group hover:-translate-y-4 duration-500 border-none shadow-xl" onClick={() => selectTopic(topic.id)}>
+              <Container key={topic.id} className="p-0 overflow-hidden flex flex-col group hover:-translate-y-4 transition-all duration-500 ease-out border-none shadow-xl hover:shadow-2xl" onClick={() => selectTopic(topic.id)}>
                 <div className="h-64 relative overflow-hidden">
                   <img 
                     src={topic.img} 
                     alt={topic.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-110 group-hover:rotate-1"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-                  <div className="absolute top-6 left-6 px-4 py-1.5 bg-[#00E5BC] text-white text-[10px] font-black uppercase rounded-full shadow-lg tracking-widest">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
+                  <div className="absolute top-6 left-6 px-4 py-1.5 bg-[#00E5BC] text-white text-[10px] font-black uppercase rounded-full shadow-lg tracking-widest transform transition-transform duration-500 group-hover:scale-110">
                     {topic.words}
                   </div>
                 </div>
@@ -722,10 +885,10 @@ export default function App() {
                {/* Word Grid */}
                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {(WORDS_BY_TOPIC[selectedTopic] || []).map((w, idx) => (
-                    <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col hover:shadow-md transition-all duration-300">
+                    <div key={idx} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 group">
                        <div className="flex justify-between items-start mb-6">
-                          <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest">{w.pos}</span>
-                          <button onClick={() => onStartTTS(w.term)} className="text-gray-400 hover:text-[#006D5B] transition-colors"><Volume2 className="w-5 h-5" /></button>
+                          <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors duration-300 group-hover:bg-blue-100">{w.pos}</span>
+                          <button onClick={() => onStartTTS(w.term)} className="text-gray-400 hover:text-[#006D5B] hover:scale-110 hover:bg-emerald-50 p-2 rounded-full transition-all"><Volume2 className="w-5 h-5" /></button>
                        </div>
                        
                        <div className="space-y-3 mb-8 flex-1">
@@ -917,7 +1080,7 @@ export default function App() {
                <button onClick={() => setCurrentPage(selectedTopic ? 'flashcards' : 'catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase border-t border-gray-50 transition-colors">Flashcards</button>
             </div>
           </div>
-          <button className="hover:text-gray-900 transition-colors opacity-30 cursor-not-allowed">Quiz</button>
+          <button onClick={() => setCurrentPage('quiz')} className={`hover:text-gray-900 transition-colors ${currentPage === 'quiz' ? 'text-gray-900' : ''}`}>Quiz</button>
           <div className="flex items-center gap-8 pl-8 border-l border-gray-100">
              <Search className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
              <div 
