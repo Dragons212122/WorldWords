@@ -176,9 +176,9 @@ Merge updates from task-4/optimization
 
 | Trang | Dữ liệu hiển thị | Query / Endpoint | Người thực hiện |
 |---|---|---|---|
-| Flashcards | Danh sách thẻ từ vựng dựa theo chủ đề người dùng đã chọn. | `GET https://world-words.vercel.app/api/topics/:id/words` | Nguyễn Ngọc |
-| Dashboard | Tên người dùng, Điểm XP, Rank hiện tại. | `GET https://world-words.vercel.app/api/users/:uid/dashboard` | Nguyễn Ngọc |
-| Profile | Form thông tin chi tiết (Email, Mục tiêu, Chuỗi ngày học liên tiếp). | `GET/PUT https://world-words.vercel.app/api/users/:uid/profile` | Nguyễn Ngọc |
+| Flashcards | Danh sách thẻ từ vựng dựa theo chủ đề người dùng đã chọn. | `GET https://world-words.vercel.app/api/topics/:id/words` | Phạm Ngọc Kha |
+| Dashboard | Tên người dùng, Điểm XP, Rank hiện tại. | `GET https://world-words.vercel.app/api/users/:uid/dashboard` | Phạm Ngọc Kha |
+| Profile | Form thông tin chi tiết (Email, Mục tiêu, Chuỗi ngày học liên tiếp). | `GET/PUT https://world-words.vercel.app/api/users/:uid/profile` | Phạm Ngọc Kha |
 
 ---
 
