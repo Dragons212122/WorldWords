@@ -1,8 +1,17 @@
 # Dependency directories
 node_modules/
 
+# Build output
+dist/
+
 # Environment variables
 .env
+
+# Vercel
+.vercel
+
+# Scripts / binaries
+src/scripts/
 
 # Logs
 logs
