@@ -51,10 +51,14 @@ try {
 }
 
 // --- Gemini API (Phát âm) ---
-const apiKey = ""; 
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
 
 async function callGeminiTTS(text) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+  if (!GEMINI_API_KEY) {
+    console.warn('Gemini TTS: No API key configured. Set VITE_GEMINI_API_KEY in .env');
+    return null;
+  }
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
   try {
     const response = await fetch(url, {
       method: 'POST',
