@@ -575,14 +575,83 @@ const HomePage = ({ onAction, user }) => (
 export default function App() {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
-  const [currentPage, setCurrentPage] = useState('home');
-  const [selectedTopic, setSelectedTopic] = useState(null);
-  const [currentTopicWords, setCurrentTopicWords] = useState(WORDS_BY_TOPIC['academic'] || []);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const hash = window.location.hash.replace(/^#\/?/, '');
+    return hash.split('?')[0] || 'home';
+  });
+  const [selectedTopic, setSelectedTopic] = useState(() => {
+    const hash = window.location.hash;
+    const query = hash.split('?')[1];
+    if (query) {
+      const params = new URLSearchParams(query);
+      return params.get('topic');
+    }
+    return null;
+  });
+  const [currentTopicWords, setCurrentTopicWords] = useState(() => {
+    const hash = window.location.hash;
+    const query = hash.split('?')[1];
+    let topic = null;
+    if (query) {
+      const params = new URLSearchParams(query);
+      topic = params.get('topic');
+    }
+    return topic && WORDS_BY_TOPIC[topic] ? WORDS_BY_TOPIC[topic] : (WORDS_BY_TOPIC['academic'] || []);
+  });
+
+  useEffect(() => {
+    let newHash = currentPage === 'home' ? '' : `#/${currentPage}`;
+    if (selectedTopic && (currentPage === 'gallery_detail' || currentPage === 'flashcards' || currentPage === 'quiz')) {
+      newHash += `?topic=${selectedTopic}`;
+    }
+    
+    const currentHash = window.location.hash;
+    if (currentHash !== newHash) {
+      window.history.pushState(null, '', newHash || window.location.pathname + window.location.search);
+    }
+  }, [currentPage, selectedTopic]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace(/^#\/?/, '');
+      const [page, query] = hash.split('?');
+      setCurrentPage(page || 'home');
+      
+      if (query) {
+        const params = new URLSearchParams(query);
+        const topic = params.get('topic');
+        setSelectedTopic(topic);
+        if (topic && WORDS_BY_TOPIC[topic]) {
+          setCurrentTopicWords(WORDS_BY_TOPIC[topic]);
+        }
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
+    };
+  }, []);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [ttsLoading, setTtsLoading] = useState(false);
   const audioRef = useRef(null);
+  // --- NEW: learned words per topic {topicId: Set of term strings} ---
+  const [learnedWords, setLearnedWords] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('ww_learned') || '{}'); } catch { return {}; }
+  });
+  // --- NEW: bookmarked words [{topicId, term}] ---
+  const [bookmarks, setBookmarks] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('ww_bookmarks') || '[]'); } catch { return []; }
+  });
+  // --- NEW: quiz state ---
+  const [quizQuestions, setQuizQuestions] = useState([]);
+  const [quizIndex, setQuizIndex] = useState(0);
+  const [quizSelected, setQuizSelected] = useState(null);
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizDone, setQuizDone] = useState(false);
 
   // RULE 3: Auth Before Queries
   useEffect(() => {
@@ -692,9 +761,54 @@ export default function App() {
     setIsFlipped((prev) => !prev);
   };
 
+  // --- NEW: Mark current word as learned ---
+  const markLearned = (topicId, term) => {
+    setLearnedWords(prev => {
+      const updated = { ...prev, [topicId]: [...(prev[topicId] || []), term].filter((v,i,a)=>a.indexOf(v)===i) };
+      localStorage.setItem('ww_learned', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  // --- NEW: Toggle bookmark ---
+  const toggleBookmark = (topicId, word) => {
+    setBookmarks(prev => {
+      const exists = prev.some(b => b.topicId === topicId && b.term === word.term);
+      const updated = exists
+        ? prev.filter(b => !(b.topicId === topicId && b.term === word.term))
+        : [...prev, { topicId, ...word }];
+      localStorage.setItem('ww_bookmarks', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const isBookmarked = (topicId, term) => bookmarks.some(b => b.topicId === topicId && b.term === term);
+
+  // --- NEW: Start quiz (6 random questions from topic) ---
+  const startQuiz = (topicId) => {
+    const allWords = WORDS_BY_TOPIC[topicId] || [];
+    const allOthers = Object.values(WORDS_BY_TOPIC).flat();
+    const shuffled = [...allWords].sort(() => Math.random() - 0.5);
+    const picked = shuffled.slice(0, Math.min(6, shuffled.length));
+    const questions = picked.map(w => {
+      const distractors = allOthers.filter(o => o.term !== w.term).sort(() => Math.random() - 0.5).slice(0, 3);
+      const options = [...distractors.map(d => d.trans), w.trans].sort(() => Math.random() - 0.5);
+      return { word: w, options, correct: w.trans };
+    });
+    setQuizQuestions(questions);
+    setQuizIndex(0);
+    setQuizSelected(null);
+    setQuizScore(0);
+    setQuizDone(false);
+    setCurrentPage('quiz');
+  };
+
   const currentTopic = TOPICS.find((topic) => topic.id === selectedTopic) || TOPICS[0];
   const currentWord = currentTopicWords[currentWordIndex] || {};
   const flashcardProgress = currentTopicWords.length ? Math.round(((currentWordIndex + 1) / currentTopicWords.length) * 100) : 0;
+  const learnedCount = (learnedWords[selectedTopic] || []).length;
+  const topicTotal = currentTopicWords.length;
+  const topicProgress = topicTotal ? Math.round((learnedCount / topicTotal) * 100) : 0;
 
   if (isLoading) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white">
@@ -763,17 +877,25 @@ export default function App() {
                     <p className="text-lg text-gray-500 max-w-2xl font-medium leading-relaxed">{topic?.desc}</p>
                   </div>
                   <div className="w-full lg:w-80 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                     <div className="flex justify-between items-center mb-4">
-                        <h4 className="font-bold text-gray-600 uppercase tracking-widest text-xs">Topic Progress</h4>
-                        <span className="text-sm font-black text-[#006D5B]">0/{topic?.words ? topic.words.replace(' WORDS', '') : 0} words (0%)</span>
-                     </div>
-                     <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
-                        <div className="h-full bg-[#006D5B] w-0 transition-all duration-1000" />
-                     </div>
-                     <div className="flex justify-between items-center text-sm font-bold text-[#006D5B] cursor-pointer hover:underline" onClick={() => setCurrentPage('flashcards')}>
-                        <div className="flex items-center gap-2"><PlayCircle className="w-5 h-5" /> Start Learning</div>
-                     </div>
-                  </div>
+                      <div className="flex justify-between items-center mb-4">
+                         <h4 className="font-bold text-gray-600 uppercase tracking-widest text-xs">Topic Progress</h4>
+                         <span className="text-sm font-black text-[#006D5B]">{learnedCount}/{topicTotal} words ({topicProgress}%)</span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
+                         <div className="h-full bg-[#006D5B] transition-all duration-1000" style={{width:`${topicProgress}%`}} />
+                      </div>
+                      {topicProgress === 100 && (
+                        <div className="flex items-center gap-2 text-xs font-black text-emerald-600 bg-emerald-50 px-3 py-2 rounded-xl mb-3"><CheckCircle2 className="w-4 h-4" /> Topic Completed! 🎉</div>
+                      )}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2 text-sm font-bold text-[#006D5B] cursor-pointer hover:underline" onClick={() => setCurrentPage('flashcards')}>
+                           <PlayCircle className="w-5 h-5" /> Start Learning
+                        </div>
+                        <div className="flex items-center gap-2 text-sm font-bold text-purple-600 cursor-pointer hover:underline" onClick={() => startQuiz(selectedTopic)}>
+                           <Zap className="w-5 h-5" /> Quick Quiz (6 questions)
+                        </div>
+                      </div>
+                   </div>
                </div>
 
                {/* Hero Section */}
@@ -814,19 +936,15 @@ export default function App() {
                           <button onClick={() => setCurrentPage('flashcards')} className="flex-1 py-3 bg-gray-50 text-gray-600 font-bold hover:bg-emerald-50 hover:text-[#006D5B] transition-colors rounded-xl text-xs uppercase tracking-widest">
                              Details
                           </button>
-                          <button className="p-3 border border-gray-200 text-gray-400 rounded-xl hover:bg-gray-50 hover:text-[#006D5B] transition-colors">
-                             <Bookmark className="w-5 h-5" />
+                          <button onClick={() => toggleBookmark(selectedTopic, w)} className={`p-3 border rounded-xl transition-colors ${ isBookmarked(selectedTopic, w.term) ? 'bg-amber-50 border-amber-200 text-amber-500' : 'border-gray-200 text-gray-400 hover:bg-gray-50 hover:text-[#006D5B]' }`}>
+                             <Bookmark className="w-5 h-5" fill={isBookmarked(selectedTopic, w.term) ? 'currentColor' : 'none'} />
                           </button>
+                          {(learnedWords[selectedTopic] || []).includes(w.term) && (
+                            <div className="p-3 text-emerald-500"><CheckCircle2 className="w-5 h-5" /></div>
+                          )}
                        </div>
                     </div>
                   ))}
-               </div>
-
-               {/* Load More Button */}
-               <div className="flex justify-center mt-12 mb-20">
-                  <button className="px-8 py-3 border-2 border-[#006D5B] text-[#006D5B] font-bold rounded-full hover:bg-[#006D5B] hover:text-white transition-all flex items-center gap-2 text-sm shadow-sm">
-                     Load More Words <ChevronDown className="w-4 h-4" />
-                  </button>
                </div>
             </div>
           </div>
@@ -851,12 +969,24 @@ export default function App() {
               <div className="p-12 rounded-[40px] bg-white border border-gray-100 shadow-lg text-center">
                 <p className="text-xl text-gray-500">No flashcards are available for this topic yet.</p>
               </div>
+            ) : learnedCount >= topicTotal && topicTotal > 0 ? (
+              <div className="bg-white border border-gray-100 rounded-[48px] shadow-2xl p-12 text-center space-y-8">
+                <div className="text-8xl animate-bounce">🎉</div>
+                <h2 className="text-5xl font-black text-gray-900">Topic Complete!</h2>
+                <p className="text-xl text-gray-500 font-medium">You have mastered all <span className="font-black text-[#006D5B]">{topicTotal} words</span> in this topic!</p>
+                <div className="flex flex-wrap gap-4 justify-center pt-4">
+                  <Button onClick={() => startQuiz(selectedTopic)} className="rounded-3xl px-8 py-4 text-lg"><Zap className="w-5 h-5" /> Take the Quiz</Button>
+                  <Button variant="outline" onClick={() => setCurrentPage('catalog')} className="rounded-3xl px-8 py-4 text-lg">Browse Topics</Button>
+                  <Button variant="ghost" onClick={() => { setLearnedWords(prev => { const u = {...prev}; delete u[selectedTopic]; localStorage.setItem('ww_learned', JSON.stringify(u)); return u; }); setCurrentWordIndex(0); setIsFlipped(false); }} className="rounded-3xl px-8 py-4 text-lg">Study Again</Button>
+                </div>
+              </div>
             ) : (
               <div className="bg-white border border-gray-100 rounded-[48px] shadow-2xl p-8">
                 <div className="flex flex-col lg:flex-row items-center justify-between gap-6 mb-10">
                   <div>
                     <div className="text-sm uppercase tracking-[0.35em] text-gray-400 font-bold">Progress</div>
                     <div className="text-4xl font-black text-[#006D5B] mt-2">{currentWordIndex + 1} / {currentTopicWords.length}</div>
+                    <div className="text-sm text-gray-400 mt-1">Mastered: <span className="font-bold text-emerald-600">{learnedCount}/{topicTotal}</span></div>
                   </div>
                   <div className="w-full lg:w-96 bg-gray-100 rounded-full h-4 overflow-hidden">
                     <div className="h-full bg-[#006D5B] transition-all" style={{ width: `${flashcardProgress}%` }} />
@@ -901,9 +1031,27 @@ export default function App() {
                 <div className="mt-10 flex flex-col md:flex-row items-center gap-4 justify-between">
                   <div className="flex flex-wrap gap-4">
                     <Button variant="outline" onClick={() => handleNavigation('reset')} className="rounded-3xl">Reset</Button>
-                    <Button variant="ghost" onClick={() => handleNavigation('next')} className="rounded-3xl">Easy</Button>
+                    <button
+                      onClick={() => toggleBookmark(selectedTopic, currentWord)}
+                      className={`px-5 py-3 rounded-3xl border font-bold flex items-center gap-2 text-sm transition-all ${ isBookmarked(selectedTopic, currentWord.term) ? 'bg-amber-50 border-amber-200 text-amber-500' : 'border-gray-200 text-gray-500 hover:border-amber-200 hover:text-amber-500' }`}
+                    >
+                      <Bookmark className="w-4 h-4" fill={isBookmarked(selectedTopic, currentWord.term) ? 'currentColor' : 'none'} />
+                      {isBookmarked(selectedTopic, currentWord.term) ? 'Saved' : 'Save'}
+                    </button>
                   </div>
                   <div className="flex gap-4">
+                    <button
+                      disabled={!isFlipped}
+                      onClick={() => { markLearned(selectedTopic, currentWord.term); handleNavigation('next'); }}
+                      title={!isFlipped ? 'Flip the card to see the answer first' : ''}
+                      className={`px-6 py-3 rounded-3xl font-bold flex items-center gap-2 transition-all ${
+                        isFlipped
+                          ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-md hover:shadow-lg hover:-translate-y-1'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      <CheckCircle2 className="w-5 h-5" /> Got it
+                    </button>
                     <Button onClick={() => handleNavigation('next')} className="rounded-3xl">Next</Button>
                     <Button variant="white" className="rounded-3xl" onClick={() => onStartTTS(currentWord.term)}>Listen</Button>
                   </div>
@@ -913,6 +1061,67 @@ export default function App() {
           </div>
         </div>
       );
+
+      case 'quiz':
+        const q = quizQuestions[quizIndex];
+        return (
+          <div className="bg-[#F8F9FF] min-h-screen py-24 px-6 lg:px-24">
+            <div className="max-w-2xl mx-auto space-y-10">
+              <div className="flex items-center justify-between">
+                <button onClick={() => setCurrentPage('gallery_detail')} className="flex items-center gap-2 text-gray-400 hover:text-gray-900 font-bold"><ArrowLeft className="w-4 h-4" /> Back</button>
+                <span className="text-xs font-black uppercase tracking-widest text-gray-400">Quiz • {currentTopic?.title}</span>
+              </div>
+              {quizDone ? (
+                <div className="bg-white rounded-[48px] shadow-2xl p-12 text-center space-y-8">
+                  <div className="text-7xl">{quizScore >= 5 ? '🎉' : quizScore >= 3 ? '💪' : '📚'}</div>
+                  <h2 className="text-5xl font-black text-gray-900">Results!</h2>
+                  <p className="text-2xl font-bold text-[#006D5B]">{quizScore} / {quizQuestions.length} correct</p>
+                  <p className="text-gray-500">{quizScore === quizQuestions.length ? 'Perfect score! You know them all!' : quizScore >= 4 ? 'Great job! Keep it up!' : 'Keep practicing, you\'ll get there!'}</p>
+                  <div className="flex gap-4 justify-center">
+                    <Button onClick={() => startQuiz(selectedTopic)} className="rounded-3xl"><Zap className="w-4 h-4" /> Try Again</Button>
+                    <Button variant="outline" onClick={() => setCurrentPage('gallery_detail')} className="rounded-3xl">Back to Topic</Button>
+                  </div>
+                </div>
+              ) : q ? (
+                <div className="bg-white rounded-[48px] shadow-2xl p-10 space-y-8">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Question {quizIndex + 1} / {quizQuestions.length}</span>
+                    <div className="flex gap-1">{quizQuestions.map((_,i) => <div key={i} className={`w-3 h-3 rounded-full ${i < quizIndex ? 'bg-emerald-400' : i === quizIndex ? 'bg-[#006D5B]' : 'bg-gray-200'}`} />)}</div>
+                  </div>
+                  <div className="text-center space-y-2">
+                    <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-black uppercase">{q.word.pos}</span>
+                    <h2 className="text-5xl font-black text-gray-900 mt-4">{q.word.term}</h2>
+                    <p className="text-gray-500 font-medium">{q.word.def}</p>
+                  </div>
+                  <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-widest">Choose the correct Vietnamese meaning:</p>
+                  <div className="grid grid-cols-1 gap-3">
+                    {q.options.map((opt, i) => {
+                      let style = 'border-2 border-gray-100 bg-white text-gray-700 hover:border-[#006D5B] hover:bg-emerald-50';
+                      if (quizSelected !== null) {
+                        if (opt === q.correct) style = 'border-2 border-emerald-400 bg-emerald-50 text-emerald-700 font-black';
+                        else if (opt === quizSelected && opt !== q.correct) style = 'border-2 border-red-300 bg-red-50 text-red-600';
+                        else style = 'border-2 border-gray-100 bg-gray-50 text-gray-400';
+                      }
+                      return (
+                        <button key={i} disabled={quizSelected !== null}
+                          onClick={() => {
+                            setQuizSelected(opt);
+                            if (opt === q.correct) setQuizScore(s => s + 1);
+                            setTimeout(() => {
+                              if (quizIndex + 1 >= quizQuestions.length) setQuizDone(true);
+                              else { setQuizIndex(qi => qi + 1); setQuizSelected(null); }
+                            }, 900);
+                          }}
+                          className={`w-full p-4 rounded-2xl text-left font-bold transition-all ${style}`}
+                        >{opt}</button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </div>
+        );
 
       case 'dashboard': return (
         <div className="py-40 text-center max-w-5xl mx-auto px-6 space-y-12">
