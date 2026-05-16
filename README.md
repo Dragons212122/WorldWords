@@ -85,7 +85,6 @@ Do đây là dự án cá nhân, sinh viên tự thực hiện toàn bộ từ t
   - [x] Flashcards
   - [x] Auth Page (Login / Register / Forgot Password)
   - [x] Dashboard & Profile
-  - [x] Quiz
 
 ### (c) Project Plan
 
@@ -96,7 +95,7 @@ Do đây là dự án cá nhân, sinh viên tự thực hiện toàn bộ từ t
 | Khởi tạo dự án & Setup môi trường | Hoàn thành |
 | Xây dựng UI Component (Cards, Buttons, Navigation) | Hoàn thành |
 | Tích hợp dữ liệu từ vựng & Flashcards 3D | Hoàn thành |
-| Triển khai Animation, Quiz Feature, và Refactor Auth | Hoàn thành |
+| Triển khai Animation và Refactor Auth | Hoàn thành |
 
 ### (d) GitHub Repository
 
@@ -122,14 +121,14 @@ Merge updates from task-4/optimization
 
 | Trang | URL / Route | Mô tả | Người thực hiện |
 |---|---|---|---|
-| Homepage | `https://world-words.vercel.app/` | Trang chủ giới thiệu nền tảng và kêu gọi hành động. | Nguyễn Ngọc |
-| Catalog | `https://world-words.vercel.app/catalog` | Hiển thị danh sách các chủ đề từ vựng dạng thẻ. | Nguyễn Ngọc |
-| Flashcards | `https://world-words.vercel.app/flashcards` | Giao diện học từ vựng bằng thẻ lật tương tác 3D. | Nguyễn Ngọc |
-| Login | `https://world-words.vercel.app/login` | Trang đăng nhập vào hệ thống. | Nguyễn Ngọc |
-| Register | `https://world-words.vercel.app/register` | Trang đăng ký tài khoản mới. | Nguyễn Ngọc |
-| Forgot Password | `https://world-words.vercel.app/forgot-password` | Khôi phục mật khẩu qua email. | Nguyễn Ngọc |
-| Dashboard | `https://world-words.vercel.app/dashboard` | Tổng quan thông tin, XP, Rank của người dùng. | Nguyễn Ngọc |
-| Profile | `https://world-words.vercel.app/profile` | Chỉnh sửa thông tin cá nhân và thiết lập mục tiêu. | Nguyễn Ngọc |
+| Homepage | `https://world-words.vercel.app/` | Trang chủ giới thiệu nền tảng và kêu gọi hành động. | Phạm Ngọc Kha |
+| Catalog | `https://world-words.vercel.app/catalog` | Hiển thị danh sách các chủ đề từ vựng dạng thẻ. | Phạm Ngọc Kha |
+| Flashcards | `https://world-words.vercel.app/flashcards` | Giao diện học từ vựng bằng thẻ lật tương tác 3D. | Phạm Ngọc Kha |
+| Login | `https://world-words.vercel.app/login` | Trang đăng nhập vào hệ thống. | Phạm Ngọc Kha |
+| Register | `https://world-words.vercel.app/register` | Trang đăng ký tài khoản mới. | Phạm Ngọc Kha |
+| Forgot Password | `https://world-words.vercel.app/forgot-password` | Khôi phục mật khẩu qua email. | Phạm Ngọc Kha |
+| Dashboard | `https://world-words.vercel.app/dashboard` | Tổng quan thông tin, XP, Rank của người dùng. | Phạm Ngọc Kha |
+| Profile | `https://world-words.vercel.app/profile` | Chỉnh sửa thông tin cá nhân và thiết lập mục tiêu. | Phạm Ngọc Kha |
 
 ### (b) Sử dụng Tailwind CSS
 
@@ -177,9 +176,9 @@ Merge updates from task-4/optimization
 
 | Trang | Dữ liệu hiển thị | Query / Endpoint | Người thực hiện |
 |---|---|---|---|
-| Flashcards | Danh sách thẻ từ vựng dựa theo chủ đề người dùng đã chọn. | `GET https://world-words.vercel.app/api/topics/:id/words` | Nguyễn Ngọc |
-| Dashboard | Tên người dùng, Điểm XP, Rank hiện tại. | `GET https://world-words.vercel.app/api/users/:uid/dashboard` | Nguyễn Ngọc |
-| Profile | Form thông tin chi tiết (Email, Mục tiêu, Chuỗi ngày học liên tiếp). | `GET/PUT https://world-words.vercel.app/api/users/:uid/profile` | Nguyễn Ngọc |
+| Flashcards | Danh sách thẻ từ vựng dựa theo chủ đề người dùng đã chọn. | `GET https://world-words.vercel.app/api/topics/:id/words` | Phạm Ngọc Kha |
+| Dashboard | Tên người dùng, Điểm XP, Rank hiện tại. | `GET https://world-words.vercel.app/api/users/:uid/dashboard` | Phạm Ngọc Kha |
+| Profile | Form thông tin chi tiết (Email, Mục tiêu, Chuỗi ngày học liên tiếp). | `GET/PUT https://world-words.vercel.app/api/users/:uid/profile` | Phạm Ngọc Kha |
 
 ---
 
