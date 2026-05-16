@@ -761,6 +761,19 @@ export default function App() {
     setIsFlipped((prev) => !prev);
   };
 
+  // --- NEW: personal notes {term: string} ---
+  const [personalNotes, setPersonalNotes] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('ww_notes') || '{}'); } catch { return {}; }
+  });
+
+  const saveNote = (term, note) => {
+    setPersonalNotes(prev => {
+      const updated = { ...prev, [term]: note };
+      localStorage.setItem('ww_notes', JSON.stringify(updated));
+      return updated;
+    });
+  };
+
   // --- NEW: Mark current word as learned ---
   const markLearned = (topicId, term) => {
     setLearnedWords(prev => {
@@ -976,7 +989,7 @@ export default function App() {
                 <p className="text-xl text-gray-500 font-medium">You have mastered all <span className="font-black text-[#006D5B]">{topicTotal} words</span> in this topic!</p>
                 <div className="flex flex-wrap gap-4 justify-center pt-4">
                   <Button onClick={() => startQuiz(selectedTopic)} className="rounded-3xl px-8 py-4 text-lg"><Zap className="w-5 h-5" /> Take the Quiz</Button>
-                  <Button variant="outline" onClick={() => setCurrentPage('catalog')} className="rounded-3xl px-8 py-4 text-lg">Browse Topics</Button>
+                  <Button variant="outline" onClick={() => setCurrentPage('dashboard')} className="rounded-3xl px-8 py-4 text-lg">Back to Dashboard</Button>
                   <Button variant="ghost" onClick={() => { setLearnedWords(prev => { const u = {...prev}; delete u[selectedTopic]; localStorage.setItem('ww_learned', JSON.stringify(u)); return u; }); setCurrentWordIndex(0); setIsFlipped(false); }} className="rounded-3xl px-8 py-4 text-lg">Study Again</Button>
                 </div>
               </div>
@@ -1028,7 +1041,20 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-10 flex flex-col md:flex-row items-center gap-4 justify-between">
+                <div className="mt-8 bg-white rounded-3xl p-6 border border-gray-100 shadow-sm w-full text-left transition-all focus-within:shadow-md focus-within:border-[#006D5B]">
+                  <div className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3 flex items-center justify-between">
+                    <span><BrainCircuit className="w-4 h-4 inline mr-2 text-[#006D5B]" /> Personal Memory Note</span>
+                    {personalNotes[currentWord.term] && <span className="text-emerald-500 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> Saved</span>}
+                  </div>
+                  <textarea 
+                    className="w-full bg-gray-50 border-2 border-transparent rounded-xl p-4 text-[15px] font-medium text-gray-700 outline-none focus:border-emerald-200 focus:bg-white resize-none h-24 transition-all"
+                    placeholder="Write your own mnemonics, hints, or associations to help remember this word..."
+                    value={personalNotes[currentWord.term] || ''}
+                    onChange={(e) => saveNote(currentWord.term, e.target.value)}
+                  />
+                </div>
+
+                <div className="mt-8 flex flex-col md:flex-row items-center gap-4 justify-between">
                   <div className="flex flex-wrap gap-4">
                     <Button variant="outline" onClick={() => handleNavigation('reset')} className="rounded-3xl">Reset</Button>
                     <button
