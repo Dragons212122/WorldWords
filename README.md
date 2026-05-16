@@ -79,6 +79,7 @@ Do đây là dự án cá nhân, sinh viên tự thực hiện toàn bộ từ t
 ### (b) Wireframe
 
 - **Tool sử dụng:** Figma / Code Prototype
+- **Figma Design:** [WorldWords Figma](https://www.figma.com/design/4W4F6vhFcCsok2Rd3iuJNw/final-%C6%B0eb?node-id=3-2&m=dev&t=I4mtPhyTo0iXwuS8-1)
 - **Các trang đã thiết kế:**
   - [x] Homepage
   - [x] Topic Catalog
@@ -188,12 +189,25 @@ Merge updates from task-4/optimization
 
 Ứng dụng được tối ưu hóa liên tục để đạt điểm số cao trên Lighthouse. Hình ảnh trên trang chủ sử dụng Unsplash được nén với tham số `?auto=format&fit=crop&q=80` và gắn thuộc tính `loading="lazy"`.
 
-**Kết quả sau khi tối ưu:**
+**Kết quả đo thực tế:**
 
-| Metric | Điểm (Dự kiến/Đo được) |
+**1. Desktop:**
+![Lighthouse Desktop Score](public/imgs/lighthouse.png)
+
+| Metric | Điểm (Desktop) |
 |---|---|
-| Performance | 95+ |
-| Accessibility | 100 |
+| Performance | 99 |
+| Accessibility | 92 |
+| Best Practices | 100 |
+| SEO | 100 |
+
+**2. Mobile:**
+![Lighthouse Mobile Score](public/imgs/lighthouse_mobile.png)
+
+| Metric | Điểm (Mobile) |
+|---|---|
+| Performance | 97 |
+| Accessibility | 92 |
 | Best Practices | 100 |
 | SEO | 100 |
 

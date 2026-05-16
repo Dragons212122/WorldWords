@@ -1078,7 +1078,11 @@ export default function App() {
                     >
                       <CheckCircle2 className="w-5 h-5" /> Got it
                     </button>
-                    <Button onClick={() => handleNavigation('next')} className="rounded-3xl">Next</Button>
+                    {currentWordIndex === currentTopicWords.length - 1 ? (
+                      <Button onClick={() => setCurrentPage('dashboard')} className="rounded-3xl bg-[#006D5B] text-white hover:bg-[#005244] shadow-md border-0">Finish Topic</Button>
+                    ) : (
+                      <Button onClick={() => handleNavigation('next')} className="rounded-3xl">Next</Button>
+                    )}
                     <Button variant="white" className="rounded-3xl" onClick={() => onStartTTS(currentWord.term)}>Listen</Button>
                   </div>
                 </div>
