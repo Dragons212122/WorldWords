@@ -248,7 +248,7 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 
 Đạt mức điểm trải nghiệm thực tế (Real Experience Score) rất ấn tượng: **98/100** trên Desktop.
 
-![Vercel Speed Insights](public/imgs/Screenshot%202026-05-18%20164851.png)
+![Vercel Speed Insights](public/imgs/Vercel_Analytics.png)
 
 ## Task 5 — UI/UX Peer Review & Evaluation
 
