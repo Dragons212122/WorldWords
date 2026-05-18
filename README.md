@@ -254,16 +254,16 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 
 ### (a) Feedback for Other Teams
 
-**Reviewed Team:** Calorie Web
+**Reviewed Team:** WindTodo V1
 
-- **Team / Project:** Calorie Web — Calorie Tracking Application
-- **Repository:** [github.com/nguyenduythaibao1611-eng/calorie-web.github.io](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io)
-- **Feedback Issues:** [GitHub Issues](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/issues)
+- **Team / Project:** WindTodo V1 — Final Project Report
+- **Repository:** [(https://github.com/TonyLikeDev/WindTodo-V1)](https://github.com/TonyLikeDev/WindTodo-V1))
+- **Feedback Issues:** [GitHub Issues](https://github.com/TonyLikeDev/WindTodo-V1/issues/56)
 
 | Aspect | Strengths | Improvement Suggestions |
 |---|---|---|
-| **Functionality** | Complete calorie tracking flow: diary, search, stats, TDEE calculator, water tracking | [PR #1 — Fix streak persistence](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/pulls): streak resets to 0 on page reload; needs to persist streak to profile |
-| **Data Integrity** | Local storage architecture for offline-first experience | [PR #2 — Fix timezone bug](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/pulls): `toISOString()` uses UTC, causing a 1-day streak offset for UTC+7 timezone |
+| **Functionality** | Complete calorie tracking flow: diary, search, stats, TDEE calculator, water tracking | [PR #1 — Fix streak persistence](https://github.com/TonyLikeDev/WindTodo-V1/pulls): streak resets to 0 on page reload; needs to persist streak to profile |
+| **Data Integrity** | Local storage architecture for offline-first experience | [PR #2 — Fix timezone bug]https://github.com/TonyLikeDev/WindTodo-V1/pulls): `toISOString()` uses UTC, causing a 1-day streak offset for UTC+7 timezone |
 | **UI/UX** | Clean dashboard design, responsive layout, animated stats page | Could improve with dark mode and accessibility labels for screen readers |
 
 **Bằng chứng review (Peer Review Issue):**
