@@ -252,12 +252,22 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 
 ## Task 5 — UI/UX Peer Review & Evaluation
 
-### (a) Review project của nhóm khác
+### (a) Feedback for Other Teams
 
-- Đã thực hiện review UI/UX cho nhóm khác theo tiêu chí (Usability, Aesthetics, User-Friendliness).
-- Đã tạo Issue góp ý chi tiết về Layout Consistency, Component Contrast, và Mobile Scaling.
-- Bằng chứng review:
-  ![Peer Review Issue #56](public/imgs/peer_review_issue.png)
+**Reviewed Team:** Calorie Web
+
+- **Team / Project:** Calorie Web — Calorie Tracking Application
+- **Repository:** [github.com/nguyenduythaibao1611-eng/calorie-web.github.io](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io)
+- **Feedback Issues:** [GitHub Issues](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/issues)
+
+| Aspect | Strengths | Improvement Suggestions |
+|---|---|---|
+| **Functionality** | Complete calorie tracking flow: diary, search, stats, TDEE calculator, water tracking | [PR #1 — Fix streak persistence](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/pulls): streak resets to 0 on page reload; needs to persist streak to profile |
+| **Data Integrity** | Local storage architecture for offline-first experience | [PR #2 — Fix timezone bug](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/pulls): `toISOString()` uses UTC, causing a 1-day streak offset for UTC+7 timezone |
+| **UI/UX** | Clean dashboard design, responsive layout, animated stats page | Could improve with dark mode and accessibility labels for screen readers |
+
+**Bằng chứng review (Peer Review Issue):**
+![Peer Review Issue #56](public/imgs/peer_review_issue.png)
 
 ### (b) Implement feedback nhận được
 
