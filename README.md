@@ -118,12 +118,40 @@ Merge updates from task-4/optimization
 
 ## Task 2 — Implement User Interface
 
-### (a) Các trang đã xây dựng
+### (a) Main UI & Features (Giao diện chính)
+
+Dưới đây là các giao diện nổi bật và chức năng chính của ứng dụng:
+
+**1. Trang Chủ (Home)**
+![Home Page](public/imgs/home.png)
+
+**2. Giao diện Thư viện Chủ đề (Gallery)**
+![Gallery Page](public/imgs/Gallery.png)
+
+**3. Màn hình Học Flashcards 3D**
+![Flashcards Canvas](public/imgs/Flashcard_Canvas.png)
+![Flashcards Page finish topic](public/imgs/Flashcards_finish_topic.png)
+
+**4. Dashboard Người Dùng**
+![Dashboard Page](public/imgs/dashboard.png)
+
+**5. Xác thực Người dùng (Login / Register)**
+![Login Page](public/imgs/login.png)
+![Register Page](public/imgs/register.png)
+
+**6. Hồ sơ Cá nhân (Profile)**
+![Profile Page](public/imgs/profile.png)
+
+**7. Bài Kiểm tra Từ vựng (Quiz)**
+![Quiz Question](public/imgs/quiz.png)
+![Quiz Results](public/imgs/quiz_results.png)
+
+### (b) Các trang đã xây dựng
 
 | Trang | URL / Route | Mô tả | Người thực hiện |
 |---|---|---|---|
 | Homepage | `https://world-words.vercel.app/` | Trang chủ giới thiệu nền tảng và kêu gọi hành động. | Phạm Ngọc Kha |
-| Catalog | `https://world-words.vercel.app/catalog` | Hiển thị danh sách các chủ đề từ vựng dạng thẻ. | Phạm Ngọc Kha |
+| Gallery | `https://world-words.vercel.app/gallery` | Hiển thị danh sách các chủ đề từ vựng dạng thẻ. | Phạm Ngọc Kha |
 | Flashcards | `https://world-words.vercel.app/flashcards` | Giao diện học từ vựng bằng thẻ lật tương tác 3D. | Phạm Ngọc Kha |
 | Login | `https://world-words.vercel.app/login` | Trang đăng nhập vào hệ thống. | Phạm Ngọc Kha |
 | Register | `https://world-words.vercel.app/register` | Trang đăng ký tài khoản mới. | Phạm Ngọc Kha |
@@ -131,14 +159,14 @@ Merge updates from task-4/optimization
 | Dashboard | `https://world-words.vercel.app/dashboard` | Tổng quan thông tin, XP, Rank của người dùng. | Phạm Ngọc Kha |
 | Profile | `https://world-words.vercel.app/profile` | Chỉnh sửa thông tin cá nhân và thiết lập mục tiêu. | Phạm Ngọc Kha |
 
-### (b) Sử dụng Tailwind CSS
+### (c) Sử dụng Tailwind CSS
 
 Ứng dụng sử dụng **Tailwind CSS v4** để xây dựng toàn bộ UI.
 - Sử dụng các utility classes tạo layout (Flexbox, Grid).
 - Kết hợp classes animation cao cấp (`animate-bounce`, `hover:-translate-y-2`, `transition-all`, `group-hover:scale-105`) để mang lại trải nghiệm mượt mà, "Premium".
 - Giao diện đáp ứng (Responsive) tốt trên nhiều màn hình.
 
-### (c) Các tính năng tương tác
+### (d) Các tính năng tương tác
 
 | Tính năng | Mô tả |
 |---|---|
@@ -220,8 +248,10 @@ Merge updates from task-4/optimization
 
 ### (a) Review project của nhóm khác
 
-- Đã thực hiện review UI/UX cho 2 nhóm khác theo tiêu chí (Usability, Aesthetics, User-Friendliness).
-- Link chi tiết các báo cáo review: *(Cập nhật sau khi nộp bài)*
+- Đã thực hiện review UI/UX cho nhóm khác theo tiêu chí (Usability, Aesthetics, User-Friendliness).
+- Đã tạo Issue góp ý chi tiết về Layout Consistency, Component Contrast, và Mobile Scaling.
+- Bằng chứng review:
+  ![Peer Review Issue #56](public/imgs/peer_review_issue.png)
 
 ### (b) Implement feedback nhận được
 
