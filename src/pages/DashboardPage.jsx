@@ -12,15 +12,15 @@ export const DashboardPage = ({ profile, learnedWords, bookmarks, selectTopic, s
   const startedTopics = TOPICS.filter(t => learnedWords[t.id] && Object.keys(learnedWords[t.id]).length > 0);
 
   return (
-    <div className="py-24 px-6 lg:px-24 bg-[#F8F9FF] min-h-screen">
-      <div className="max-w-6xl mx-auto space-y-12">
+    <div className="py-10 md:py-24 px-4 md:px-6 lg:px-24 bg-[#F8F9FF] min-h-screen">
+      <div className="max-w-6xl mx-auto space-y-8 md:space-y-12">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
-            <h1 className="text-5xl font-black text-gray-900 tracking-tighter">Welcome back, <span className="text-[#006D5B]">{profile?.name || "Scholar"}</span>!</h1>
-            <p className="text-xl text-gray-500 font-medium mt-2">Ready to conquer more vocabulary today?</p>
+            <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tighter">Welcome back, <br className="md:hidden" /><span className="text-[#006D5B]">{profile?.name || "Scholar"}</span>!</h1>
+            <p className="text-lg md:text-xl text-gray-500 font-medium mt-2">Ready to conquer more vocabulary today?</p>
           </div>
-          <div className="bg-white px-6 py-4 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
+          <div className="w-full md:w-auto bg-white px-6 py-4 rounded-3xl shadow-sm border border-gray-100 flex items-center gap-4">
             <div className="bg-amber-100 p-3 rounded-full"><Flame className="w-6 h-6 text-amber-500" /></div>
             <div>
               <div className="text-sm font-bold text-gray-400 uppercase tracking-widest">Current Streak</div>
@@ -30,21 +30,21 @@ export const DashboardPage = ({ profile, learnedWords, bookmarks, selectTopic, s
         </div>
 
         {/* Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-md transition-all">
-            <div className="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6"><CheckCircle2 className="w-7 h-7" /></div>
-            <div className="text-5xl font-black text-gray-900 mb-2">{totalLearned}</div>
-            <div className="text-gray-500 font-bold">Words Mastered</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          <div className="bg-white p-6 md:p-8 rounded-[24px] md:rounded-[32px] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-4 md:mb-6"><CheckCircle2 className="w-6 h-6 md:w-7 md:h-7" /></div>
+            <div className="text-4xl md:text-5xl font-black text-gray-900 mb-2">{totalLearned}</div>
+            <div className="text-sm md:text-base text-gray-500 font-bold">Words Mastered</div>
           </div>
-          <div className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-md transition-all">
-            <div className="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-6"><Bookmark className="w-7 h-7" /></div>
-            <div className="text-5xl font-black text-gray-900 mb-2">{totalBookmarks}</div>
-            <div className="text-gray-500 font-bold">Saved Words</div>
+          <div className="bg-white p-6 md:p-8 rounded-[24px] md:rounded-[32px] border border-gray-100 shadow-sm hover:shadow-md transition-all">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-4 md:mb-6"><Bookmark className="w-6 h-6 md:w-7 md:h-7" /></div>
+            <div className="text-4xl md:text-5xl font-black text-gray-900 mb-2">{totalBookmarks}</div>
+            <div className="text-sm md:text-base text-gray-500 font-bold">Saved Words</div>
           </div>
-          <div className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm hover:shadow-md transition-all">
-            <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6"><Trophy className="w-7 h-7" /></div>
-            <div className="text-5xl font-black text-gray-900 mb-2">{totalXP}</div>
-            <div className="text-gray-500 font-bold">Total XP</div>
+          <div className="bg-white p-6 md:p-8 rounded-[24px] md:rounded-[32px] border border-gray-100 shadow-sm hover:shadow-md transition-all sm:col-span-2 md:col-span-1">
+            <div className="w-12 h-12 md:w-14 md:h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 md:mb-6"><Trophy className="w-6 h-6 md:w-7 md:h-7" /></div>
+            <div className="text-4xl md:text-5xl font-black text-gray-900 mb-2">{totalXP}</div>
+            <div className="text-sm md:text-base text-gray-500 font-bold">Total XP</div>
           </div>
         </div>
 
@@ -54,11 +54,11 @@ export const DashboardPage = ({ profile, learnedWords, bookmarks, selectTopic, s
           <div className="lg:col-span-2 space-y-6">
             <h2 className="text-2xl font-black text-gray-900">Your Progress</h2>
             {startedTopics.length === 0 ? (
-              <div className="bg-white p-10 rounded-[32px] border border-gray-100 shadow-sm text-center">
-                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6"><BookOpen className="w-8 h-8 text-gray-400" /></div>
+              <div className="bg-white p-8 md:p-10 rounded-[24px] md:rounded-[32px] border border-gray-100 shadow-sm text-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6"><BookOpen className="w-8 h-8 text-gray-400" /></div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">No topics started yet</h3>
-                <p className="text-gray-500 mb-6">Head over to the catalog to begin your journey.</p>
-                <Button onClick={() => setCurrentPage('catalog')} className="rounded-3xl px-8 py-4 bg-[#006D5B] text-white hover:bg-[#005244] border-0">Explore Topics</Button>
+                <p className="text-sm md:text-base text-gray-500 mb-6">Head over to the catalog to begin your journey.</p>
+                <Button onClick={() => setCurrentPage('catalog')} className="rounded-3xl px-8 py-4 bg-[#006D5B] text-white hover:bg-[#005244] border-0 w-full sm:w-auto">Explore Topics</Button>
               </div>
             ) : (
               <div className="grid gap-4">
@@ -67,10 +67,10 @@ export const DashboardPage = ({ profile, learnedWords, bookmarks, selectTopic, s
                   const totalInTopic = WORDS_BY_TOPIC[t.id]?.length || 0;
                   const progress = totalInTopic > 0 ? (learnedInTopic / totalInTopic) * 100 : 0;
                   return (
-                    <div key={t.id} onClick={() => selectTopic(t.id)} className="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md hover:border-[#006D5B] cursor-pointer transition-all flex flex-col md:flex-row items-start md:items-center gap-6">
-                      <img src={t.img} alt={t.title} className="w-24 h-24 rounded-2xl object-cover" />
+                    <div key={t.id} onClick={() => selectTopic(t.id)} className="bg-white p-4 md:p-6 rounded-[20px] md:rounded-[24px] border border-gray-100 shadow-sm hover:shadow-md hover:border-[#006D5B] cursor-pointer transition-all flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+                      <img src={t.img} alt={t.title} className="w-full md:w-24 h-32 md:h-24 rounded-2xl object-cover" />
                       <div className="flex-1 w-full">
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">{t.title}</h3>
+                        <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-2">{t.title}</h3>
                         <div className="flex items-center justify-between text-sm mb-2">
                           <span className="font-bold text-[#006D5B]">{learnedInTopic} / {totalInTopic} words</span>
                           <span className="text-gray-400 font-bold">{Math.round(progress)}%</span>
@@ -79,7 +79,7 @@ export const DashboardPage = ({ profile, learnedWords, bookmarks, selectTopic, s
                           <div className="bg-[#006D5B] h-full transition-all duration-1000" style={{ width: `${progress}%` }}></div>
                         </div>
                       </div>
-                      <Button variant="ghost" className="rounded-full bg-gray-50 text-[#006D5B] shrink-0 p-3"><ArrowRight className="w-5 h-5" /></Button>
+                      <Button variant="ghost" className="hidden md:flex rounded-full bg-gray-50 text-[#006D5B] shrink-0 p-3"><ArrowRight className="w-5 h-5" /></Button>
                     </div>
                   );
                 })}
