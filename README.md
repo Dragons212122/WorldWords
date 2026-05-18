@@ -216,9 +216,23 @@ Merge updates from task-4/optimization
 - [x] Đã tích hợp các công cụ **Vercel Analytics** (`@vercel/analytics`) và **Speed Insights** (`@vercel/speed-insights`).
 - Các component `<Analytics />` và `<SpeedInsights />` được đặt ở cấp độ gốc của ứng dụng (`App.jsx`) để thu thập dữ liệu truy cập và Web Vitals.
 
+## Task 5 — UI/UX Peer Review & Evaluation
+
+### (a) Review project của nhóm khác
+
+- Đã thực hiện review UI/UX cho 2 nhóm khác theo tiêu chí (Usability, Aesthetics, User-Friendliness).
+- Link chi tiết các báo cáo review: *(Cập nhật sau khi nộp bài)*
+
+### (b) Implement feedback nhận được
+
+- Các feedback nhận được từ giảng viên và các nhóm khác sẽ được đánh giá và triển khai vào dự án.
+- Danh sách các thay đổi sau review: *(Cập nhật sau khi nhận feedback)*
+
 ---
 
 ## Deliverables Checklist
 
-- [x] **Source code trên GitHub**
-- [x] **README.md** (Chứa đầy đủ nội dung Report)
+1. [x] **Source code trên GitHub**: Repository public, nhánh và commit rõ ràng.
+2. [x] **README.md**: Đã cập nhật đầy đủ theo Report Template.
+3. [ ] **Video demo trên YouTube**: (Sẽ cập nhật link sau khi quay video).
+4. [ ] **Self-Report**: (Đã nộp theo template vào thư mục `docs/self-reports`).
