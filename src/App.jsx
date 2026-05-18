@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BookOpen, ChevronDown, Search, User, Loader2 } from 'lucide-react';
+import { BookOpen, ChevronDown, Search, User, Loader2, Menu, X } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
@@ -98,6 +98,8 @@ export default function App() {
   const [quizSelected, setQuizSelected] = useState(null);
   const [quizScore, setQuizScore] = useState(0);
   const [quizDone, setQuizDone] = useState(false);
+  
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const savedUser = localStorage.getItem('worldwords_user');
@@ -312,12 +314,19 @@ export default function App() {
       <Analytics />
       <SpeedInsights />
       <audio ref={audioRef} className="hidden" />
-      <nav className="fixed top-0 left-0 right-0 z-[100] bg-white/80 border-b border-gray-50 py-6 px-12 lg:px-24 flex justify-between items-center backdrop-blur-xl">
-        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setCurrentPage('home')}>
-          <div className="bg-[#006D5B] text-white p-2 rounded-xl group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-emerald-200"><BookOpen className="w-8 h-8" /></div>
-          <span className="text-3xl font-black tracking-tighter uppercase text-gray-900">WORLDWORDS</span>
+      <nav className="fixed top-0 left-0 right-0 z-[100] bg-white/90 border-b border-gray-50 py-4 px-6 md:py-6 md:px-12 lg:px-24 flex justify-between items-center backdrop-blur-xl">
+        <div className="flex items-center gap-3 cursor-pointer group" onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); }}>
+          <div className="bg-[#006D5B] text-white p-2 rounded-xl group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-emerald-200"><BookOpen className="w-6 h-6 md:w-8 md:h-8" /></div>
+          <span className="text-xl md:text-3xl font-black tracking-tighter uppercase text-gray-900">WORLDWORDS</span>
         </div>
-        <div className="flex gap-8 font-black text-sm uppercase items-center text-gray-500 tracking-widest">
+        
+        {/* Mobile Menu Toggle */}
+        <button className="md:hidden p-2 text-gray-900 hover:bg-gray-50 rounded-xl" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+
+        {/* Desktop Nav */}
+        <div className="hidden md:flex gap-8 font-black text-sm uppercase items-center text-gray-500 tracking-widest">
           <button onClick={() => setCurrentPage('home')} className={`hover:text-gray-900 transition-colors ${currentPage === 'home' ? 'text-gray-900' : ''}`}>Home</button>
           <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); }} className={`hover:text-gray-900 transition-colors ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900' : ''}`}>Dashboard</button>
           <div className="relative group py-2 cursor-pointer">
@@ -347,15 +356,40 @@ export default function App() {
              </div>
           </div>
         </div>
+
+        {/* Mobile Nav Overlay */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-full left-0 right-0 bg-white border-b border-gray-100 shadow-2xl p-6 flex flex-col gap-6 font-black text-sm uppercase tracking-widest text-gray-500 md:hidden z-50">
+            <button onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); }} className={`text-left p-4 rounded-xl hover:bg-gray-50 ${currentPage === 'home' ? 'text-gray-900 bg-gray-50' : ''}`}>Home</button>
+            <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); setIsMobileMenuOpen(false); }} className={`text-left p-4 rounded-xl hover:bg-gray-50 ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900 bg-gray-50' : ''}`}>Dashboard</button>
+            <button onClick={() => { setCurrentPage('catalog'); setIsMobileMenuOpen(false); }} className={`text-left p-4 rounded-xl hover:bg-gray-50 ${currentPage === 'catalog' || currentPage === 'gallery_detail' || currentPage === 'flashcards' ? 'text-gray-900 bg-gray-50' : ''}`}>Gallery (Flashcards)</button>
+            
+            <div className="h-px bg-gray-100 w-full my-2"></div>
+            
+            <div 
+               onClick={() => { user?.isAnonymous ? setCurrentPage('auth') : setCurrentPage('profile'); setIsMobileMenuOpen(false); }}
+               className={`flex items-center gap-4 p-4 rounded-xl cursor-pointer ${
+                 user?.isAnonymous ? 'bg-gray-50 text-gray-600' : 'bg-emerald-50 text-[#006D5B]'
+               }`}
+             >
+               <div className="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm font-black">
+                 {user?.isAnonymous ? <User className="w-5 h-5" /> : profile?.name?.substring(0, 2).toUpperCase() || "JD"}
+               </div>
+               <span>{user?.isAnonymous ? "Create Account" : "View Profile"}</span>
+             </div>
+          </div>
+        )}
       </nav>
       <main className="pt-20">{renderPage()}</main>
-      <footer className="mt-40 py-24 px-12 lg:px-24 border-t border-gray-50 bg-white flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-gray-300">
+      <footer className="mt-20 md:mt-40 py-12 md:py-24 px-6 md:px-12 lg:px-24 border-t border-gray-50 bg-white flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-gray-300">
         <div className="flex flex-col gap-4 text-center md:text-left">
            <div className="flex items-center gap-3 justify-center md:justify-start font-black text-xl text-gray-900 tracking-tighter"><div className="bg-gray-100 p-1 rounded-md"><BookOpen className="w-5 h-5" /></div>WORLDWORDS</div>
            <p className="italic opacity-60">© 2026 WorldWords. Empowering academic learners globally.</p>
         </div>
-        <div className="flex gap-12">
-          <span className="cursor-pointer hover:text-gray-900">Privacy</span><span className="cursor-pointer hover:text-gray-900">Terms</span><span className="cursor-pointer hover:text-gray-900">Support</span>
+        <div className="flex gap-8 md:gap-12 flex-wrap justify-center">
+          <span className="cursor-pointer hover:text-gray-900">Privacy</span>
+          <span className="cursor-pointer hover:text-gray-900">Terms</span>
+          <span className="cursor-pointer hover:text-gray-900">Support</span>
         </div>
       </footer>
       <style>{`.perspective-1000 { perspective: 1000px; } .transform-style-3d { transform-style: preserve-3d; } .backface-hidden { backface-visibility: hidden; } .rotate-y-180 { transform: rotateY(180deg); } .animate-shake { animation: shake 0.2s ease-in-out 0s 2; } @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }`}</style>
