@@ -244,6 +244,12 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 - [x] Đã tích hợp các công cụ **Vercel Analytics** (`@vercel/analytics`) và **Speed Insights** (`@vercel/speed-insights`).
 - Các component `<Analytics />` và `<SpeedInsights />` được đặt ở cấp độ gốc của ứng dụng (`App.jsx`) để thu thập dữ liệu truy cập và Web Vitals.
 
+**Kết quả Speed Insights:**
+
+Đạt mức điểm trải nghiệm thực tế (Real Experience Score) rất ấn tượng: **98/100** trên Desktop.
+
+![Vercel Speed Insights](public/imgs/Screenshot%202026-05-18%20164851.png)
+
 ## Task 5 — UI/UX Peer Review & Evaluation
 
 ### (a) Review project của nhóm khác
@@ -255,8 +261,12 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 
 ### (b) Implement feedback nhận được
 
-- Các feedback nhận được từ giảng viên và các nhóm khác sẽ được đánh giá và triển khai vào dự án.
-- Danh sách các thay đổi sau review: *(Cập nhật sau khi nhận feedback)*
+- Đã tiếp thu và triển khai các góp ý từ giảng viên và các nhóm khác (Peer Review) để nâng cao chất lượng UI/UX của dự án.
+- **Danh sách các thay đổi đã thực hiện sau review:**
+  1. **Hoàn thiện Logic Lật Thẻ (Flashcard Interaction):** Vô hiệu hóa nút "Got it" (Đã hiểu) cho đến khi người dùng lật thẻ xem mặt sau, đảm bảo tính trung thực trong quá trình học.
+  2. **Tối ưu Luồng Học (Seamless Learning Flow):** Thay thế nút "Next" bằng nút "Finish Topic" màu xanh nổi bật ở thẻ từ vựng cuối cùng, giúp người dùng dễ dàng định hướng quay về Dashboard.
+  3. **Cải thiện tính nhất quán UI (UI Consistency):** Loại bỏ các thành phần UI thừa (ví dụ nút "Load More" không cần thiết), chuẩn hóa ngôn ngữ giao diện thành tiếng Anh hoàn toàn để tạo môi trường học tập trung nhất.
+  4. **Điều chỉnh Layout Mobile:** Khắc phục lỗi hiển thị tiêu đề và khoảng cách ở chế độ màn hình nhỏ trong màn Flashcards, đảm bảo trải nghiệm Responsive mượt mà.
 
 ---
 
@@ -265,4 +275,4 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 1. [x] **Source code trên GitHub**: Repository public, nhánh và commit rõ ràng.
 2. [x] **README.md**: Đã cập nhật đầy đủ theo Report Template.
 3. [ ] **Video demo trên YouTube**: (Sẽ cập nhật link sau khi quay video).
-4. [ ] **Self-Report**: (Đã nộp theo template vào thư mục `docs/self-reports`).
+
