@@ -104,7 +104,16 @@ Do đây là dự án cá nhân, sinh viên tự thực hiện toàn bộ từ t
 
 ### (e) Quy trình làm việc trên GitHub
 
-Dự án được thực hiện cá nhân, do đó quy trình làm việc sử dụng Git tập trung vào việc tạo các nhánh tính năng (feature branches) để kiểm soát phiên bản. Các tính năng mới được phát triển và kiểm tra kỹ trên các nhánh (VD: `task-4/optimization`) trước khi được merge vào nhánh `main`.
+Dự án được thực hiện cá nhân, do đó quy trình làm việc sử dụng Git tập trung vào việc tạo các nhánh tính năng (feature branches) để kiểm soát phiên bản. Các tính năng mới được phát triển và kiểm tra kỹ thông qua các **Pull Requests (PRs)** trước khi được merge vào nhánh `main`. Tổng cộng dự án đã tạo và merge thành công **14 Pull Requests**.
+
+**Danh sách các Pull Requests tiêu biểu đã hoàn thành:**
+- `fixing bug` (Sửa lỗi UI/Logic)
+- `imporved mobile` (Tinh chỉnh giao diện di động)
+- `Project Structure Refactor & Core Feature Completion` (Tái cấu trúc và hoàn thiện tính năng lõi)
+- `Task 4/optimization` (Tối ưu hóa hiệu năng)
+- `[Task 3] Database Integration and Dynamic Content Development` (Tích hợp dữ liệu động)
+- `[Task 2] Implement Multi-page UI and Responsive Design` (Xây dựng UI đa trang)
+- `[Task 1] Project Planning and Workflow Setup` (Thiết lập cấu trúc dự án)
 
 **Ví dụ commit messages tiêu biểu:**
 
