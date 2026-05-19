@@ -337,6 +337,13 @@ export default function App() {
               <button onClick={() => setCurrentPage('catalog')} className="px-5 py-4 text-left hover:bg-emerald-50 text-gray-500 hover:text-[#006D5B] font-bold text-xs tracking-widest uppercase transition-colors">Flashcards</button>
             </div>
           </div>
+          <button 
+            className="flex items-center gap-1 hover:text-gray-900 transition-colors opacity-50 cursor-not-allowed"
+            title="Coming soon"
+            onClick={(e) => { e.preventDefault(); alert("Quiz is coming soon. Stay tuned!"); }}
+          >
+            Quiz <span className="bg-[#006D5B] text-white text-[8px] px-1.5 py-0.5 rounded-sm tracking-wider ml-1 leading-none h-fit">SOON</span>
+          </button>
           <div className="flex items-center gap-8 pl-8 border-l border-gray-100">
              <Search className="w-5 h-5 hover:text-gray-900 cursor-pointer" />
              <div 
@@ -363,6 +370,13 @@ export default function App() {
             <button onClick={() => { setCurrentPage('home'); setIsMobileMenuOpen(false); }} className={`text-left p-4 rounded-xl hover:bg-gray-50 ${currentPage === 'home' ? 'text-gray-900 bg-gray-50' : ''}`}>Home</button>
             <button onClick={() => { if(user?.isAnonymous) setCurrentPage('auth'); else setCurrentPage('dashboard'); setIsMobileMenuOpen(false); }} className={`text-left p-4 rounded-xl hover:bg-gray-50 ${currentPage === 'dashboard' || currentPage === 'profile' ? 'text-gray-900 bg-gray-50' : ''}`}>Dashboard</button>
             <button onClick={() => { setCurrentPage('catalog'); setIsMobileMenuOpen(false); }} className={`text-left p-4 rounded-xl hover:bg-gray-50 ${currentPage === 'catalog' || currentPage === 'gallery_detail' || currentPage === 'flashcards' ? 'text-gray-900 bg-gray-50' : ''}`}>Gallery (Flashcards)</button>
+            <button 
+              className="text-left p-4 rounded-xl opacity-50 cursor-not-allowed flex items-center gap-2"
+              title="Coming soon"
+              onClick={(e) => { e.preventDefault(); alert("Quiz is coming soon. Stay tuned!"); }}
+            >
+              Quiz <span className="bg-[#006D5B] text-white text-[9px] px-1.5 py-0.5 rounded-sm tracking-wider">SOON</span>
+            </button>
             
             <div className="h-px bg-gray-100 w-full my-2"></div>
             
