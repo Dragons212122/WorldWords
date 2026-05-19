@@ -286,6 +286,7 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
   2. **Tối ưu Luồng Học (Seamless Learning Flow):** Thay thế nút "Next" bằng nút "Finish Topic" màu xanh nổi bật ở thẻ từ vựng cuối cùng, giúp người dùng dễ dàng định hướng quay về Dashboard.
   3. **Cải thiện tính nhất quán UI (UI Consistency):** Loại bỏ các thành phần UI thừa (ví dụ nút "Load More" không cần thiết), chuẩn hóa ngôn ngữ giao diện thành tiếng Anh hoàn toàn để tạo môi trường học tập trung nhất.
   4. **Điều chỉnh Layout Mobile:** Khắc phục lỗi hiển thị tiêu đề và khoảng cách ở chế độ màn hình nhỏ trong màn Flashcards, đảm bảo trải nghiệm Responsive mượt mà.
+  5. **Xử lý phản hồi về tính năng Quiz (Issue #28 từ trandatt868-max):** Khắc phục lỗi nút "Quiz" bị vô hiệu hóa nhưng thiếu thông báo gây khó hiểu. Theo đúng các góp ý của reviewer, dự án đã bổ sung tooltip (`title="Coming soon"`), thêm badge `SOON` nổi bật ngay trên nút, đồng thời cài đặt thông báo (Alert) "Quiz is coming soon. Stay tuned!" khi click vào. Qua đó, người dùng nhận được phản hồi trực quan và minh bạch về trạng thái của tính năng.
 
 ---
 
