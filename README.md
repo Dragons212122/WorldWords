@@ -254,17 +254,17 @@ Dưới đây là các giao diện nổi bật và chức năng chính của ứ
 
 ### (a) Feedback for Other Teams
 
-**Reviewed Team:** Calorie Web
+**Reviewed Team:** WindTodo
 
-- **Team / Project:** Calorie Web — Calorie Tracking Application
-- **Repository:** [github.com/nguyenduythaibao1611-eng/calorie-web.github.io](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io)
-- **Feedback Issues:** [GitHub Issues](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/issues)
+- **Team / Project:** WindTodo — Task Management Application
+- **Repository:** [TonyLikeDev/WindTodo-V1](https://github.com/TonyLikeDev/WindTodo-V1)
+- **Feedback Issues:** [Issue #56 - Improve Layout Consistency, Component Contrast, and Mobile Scaling](https://github.com/TonyLikeDev/WindTodo-V1/issues/56)
 
 | Aspect | Strengths | Improvement Suggestions |
 |---|---|---|
-| **Functionality** | Complete calorie tracking flow: diary, search, stats, TDEE calculator, water tracking | [PR #1 — Fix streak persistence](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/pulls): streak resets to 0 on page reload; needs to persist streak to profile |
-| **Data Integrity** | Local storage architecture for offline-first experience | [PR #2 — Fix timezone bug](https://github.com/nguyenduythaibao1611-eng/calorie-web.github.io/pulls): `toISOString()` uses UTC, causing a 1-day streak offset for UTC+7 timezone |
-| **UI/UX** | Clean dashboard design, responsive layout, animated stats page | Could improve with dark mode and accessibility labels for screen readers |
+| **Usability & UX** | Giao diện tổng thể sạch sẽ, hiện đại với background gradient đẹp mắt. | Cần thêm secondary CTA (ví dụ: "Click here to create your first task") trong các trạng thái trống (Empty States) để hướng dẫn người dùng tốt hơn. |
+| **Aesthetics & Hierarchy** | Áp dụng tốt các nguyên lý thiết kế hiện đại. | Tăng độ tương phản màu sắc cho các text phụ (hiện tại chữ trắng trên nền xám nhạt khó đọc). Thu nhỏ kích thước component ở sidebar để cân đối không gian với phần nội dung chính. |
+| **Responsiveness** | Prototype hoạt động tốt, layout cấu trúc ổn định. | Cải thiện tương tác của input bar dưới cùng để tự động focus hoặc mở inline modal. Cần cấu hình thêm Tailwind classes (`sm:`, `md:`) để chống lỗi tràn viền (overflows) trên di động. |
 
 **Bằng chứng review (Peer Review Issue):**
 ![Peer Review Issue #56](public/imgs/peer_review_issue.png)
